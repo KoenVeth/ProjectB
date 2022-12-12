@@ -10,7 +10,7 @@ if english == 1: #if its 1 return yes
     english= True
 else:
     english= False #else return no
-developer=data[inp]['developer'] #save all data
+developer=data[inp]['developer'] #save all  data
 publisher=data[inp]['publisher']
 platforms=data[inp]['platforms']
 required_age=data[inp]['required_age']
