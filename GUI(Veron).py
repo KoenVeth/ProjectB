@@ -1,5 +1,5 @@
 from tkinter import *
-from PIL import ImageTk, Image
+
 
 # _______________________________ window colors _______________________________ #
 background_color = "#263159"
