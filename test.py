@@ -5,7 +5,7 @@ data=json.load(j) #load the data
 app_id=data[inp]['appid'] #save app_id
 name=data[inp]['name'] #save name
 release_date=data[inp]['release_date']# save release date
-english=data[inp]['english'] #save whether the game is in english
+english=data[inp]['english'] #saved whether the game is in english
 if english == 1: #if its 1 return yes
     english= True
 else:
