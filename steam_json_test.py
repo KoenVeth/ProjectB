@@ -1,8 +1,11 @@
 import  json
 ini = input("choose game ")#choose the game
-inp=-1
+inp=0
 while True:
+
     inp=inp+1
+
+
     j = open("steam.json") #open json
     data = json.load(j) #load the data
     app_id = data[inp]['appid'] #save app_id
@@ -32,6 +35,13 @@ while True:
     print(app_id, name, release_date, english, developer, publisher, platforms, required_age, categories,
           genres, steamspy_tags, achievements, postive_ratings, negative_ratings, average_playtime, median_playtime,
           owners, price)
+    if inp>=0:
+        inp=inp+1
+        inp=inp//-1
+
+    else:
+        inp=inp//-1
+
     if ini==name:
         print(app_id, name, release_date, english, developer, publisher, platforms, required_age, categories,
               genres, steamspy_tags, achievements, postive_ratings, negative_ratings, average_playtime, median_playtime,
