@@ -4,7 +4,8 @@ inp=0
 while True:
 
     inp=inp+1
-
+    if ini=="Counter-Strike":
+        inp=0
 
     j = open("steam.json") #open json
     data = json.load(j) #load the data
