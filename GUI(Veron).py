@@ -108,6 +108,7 @@ your_friends_play_image = PhotoImage(file="group.png")
 yfp = Label(image=your_friends_play_image, bg=background_color)
 yfp.place(x=10, y=240)
 
+# Search bar en the search text next to it.
 search_bar = Entry(bg=button_color)
 search_bar.place(x=1355, y=20)
 search_bar_text = Label(text="search", bg=background_color, fg=white, font=("italic", 10, "bold"))
