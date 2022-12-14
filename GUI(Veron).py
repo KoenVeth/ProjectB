@@ -1,5 +1,4 @@
 from tkinter import *
-from PIL import ImageTk, Image
 
 # _______________________________ window colors _______________________________ #
 background_color = "#263159"
@@ -108,21 +107,27 @@ your_friends_play_image = PhotoImage(file="group.png")
 yfp = Label(image=your_friends_play_image, bg=background_color)
 yfp.place(x=10, y=240)
 
-# Search bar en the search text next to it.
+# Search bar, search text and the search icon.
+search_bar_icon = PhotoImage(file="search-icon.png")
+sbi = Label(image=search_bar_icon, bg=background_color)
+sbi.place(x=1480, y=20)
 search_bar = Entry(bg=button_color, borderwidth=0)
 search_bar.place(x=1355, y=20)
 search_bar_text = Label(text="search", bg=background_color, fg=white, font=("italic", 10, "bold"))
 search_bar_text.place(x=1305, y=20)
 
+# Statistics label and text.
 statistics = Label(text="Statistics", bg=background_color, fg=white, font=("italic", 10, "bold"), border=0)
 statistics.place(x=10, y=220)
 
+# Featured & recommended text with the COD MW 2 image below it.
 featured_recommended = Label(text="Featured & recommended", bg=background_color, fg=white, font=("italic", 10, "bold"))
 featured_recommended.place(x=300, y=95)
-no_mans_sky_image = PhotoImage(file="Call-of-Duty-Modern-Warfare-2.png")
-mw_image = Label(image=no_mans_sky_image, bg=background_color)
+cod_mw_two_image = PhotoImage(file="Call-of-Duty-Modern-Warfare-2.png")
+mw_image = Label(image=cod_mw_two_image, bg=background_color)
 mw_image.place(x=300, y=120)
 
+# Information about COD MW 2 on the right of the image.
 mw_text = Label(text="Call of Duty: Modern Warfare 2", bg=background_color, fg=white, font=("italic", 15, "bold"))
 mw_text.place(x=1002, y=122)
 available_text = Label(window, text="Available Now !", bg=background_color, fg=white, font=("italic", 12, "bold"))
