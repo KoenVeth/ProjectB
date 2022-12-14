@@ -122,15 +122,15 @@ statistics.place(x=10, y=220)
 
 # Featured & recommended text with the COD MW 2 image below it.
 featured_recommended = Label(text="Featured & recommended", bg=background_color, fg=white, font=("italic", 10, "bold"))
-featured_recommended.place(x=300, y=95)
+featured_recommended.place(x=300, y=120)
 cod_mw_two_image = PhotoImage(file="Call-of-Duty-Modern-Warfare-2.png")
 mw_image = Label(image=cod_mw_two_image, bg=background_color)
-mw_image.place(x=300, y=120)
+mw_image.place(x=300, y=145)
 
 # Information about COD MW 2 on the right of the image.
 mw_text = Label(text="Call of Duty: Modern Warfare 2", bg=background_color, fg=white, font=("italic", 15, "bold"))
-mw_text.place(x=1002, y=122)
+mw_text.place(x=1002, y=147)
 available_text = Label(window, text="Available Now !", bg=background_color, fg=white, font=("italic", 12, "bold"))
-available_text.place(x=1002, y=155)
+available_text.place(x=1002, y=180)
 
 window.mainloop()
