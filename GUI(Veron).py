@@ -8,16 +8,16 @@ white = "white"
 # _______________________________ Window starter code _______________________________ #
 window = Tk()
 window.title("Steam")
-window.geometry("1080x720")
+window.geometry("1550x820")
 window.config(bg=background_color)
 steam_icon = PhotoImage(file="Steam_window_logo.png")
 window.iconphoto(False, steam_icon)
 
 steam_logo = PhotoImage(file="SteamLogo.png")
 steam_logo_label = Label(image=steam_logo, bg=background_color)
-steam_logo_label.place(x=50, y=30)
+steam_logo_label.place(x=20, y=30)
 steam_text = Label(text="Steam  ", bg=background_color, fg=white, font=("italic", 30, "bold", "underline"))
-steam_text.place(x=140, y=35)
+steam_text.place(x=110, y=35)
 
 # _______________________________ All toplevel windows _______________________________#
 
@@ -29,10 +29,10 @@ def top_seller_click():
     top.config(bg=background_color)
     steam_logo_top = PhotoImage(file="SteamLogo.png")
     steam_logo_label1 = Label(top, image=steam_logo_top, bg=background_color)
-    steam_logo_label1.place(x=50, y=30)
+    steam_logo_label1.place(x=20, y=30)
 
     top_seller_text = Label(top, text="Top sellers", bg=background_color, fg=white, font=("italic", 30, "bold", "underline"))
-    top_seller_text.place(x=140, y=35)
+    top_seller_text.place(x=110, y=35)
     top.mainloop()
 
 
@@ -43,9 +43,9 @@ def top_new_releases():
     top1.config(bg=background_color)
     steam_logo_top1 = PhotoImage(file="SteamLogo.png")
     steam_logo_label1 = Label(top1, image=steam_logo_top1, bg=background_color)
-    steam_logo_label1.place(x=50, y=30)
+    steam_logo_label1.place(x=20, y=30)
     new_releases_text = Label(top1, text="New releases", bg=background_color, fg=white, font=("italic", 30, "bold", "underline"))
-    new_releases_text.place(x=140, y=35)
+    new_releases_text.place(x=110, y=35)
     top1.mainloop()
 
 
@@ -56,9 +56,9 @@ def top_upcoming():
     top2.config(bg=background_color)
     steam_logo_top2 = PhotoImage(file="SteamLogo.png")
     steam_logo_label2 = Label(top2, image=steam_logo_top2, bg=background_color)
-    steam_logo_label2.place(x=50, y=30)
+    steam_logo_label2.place(x=20, y=30)
     upcoming_text = Label(top2, text="Upcoming", bg=background_color, fg=white, font=("italic", 30, "bold", "underline"))
-    upcoming_text.place(x=140, y=35)
+    upcoming_text.place(x=110, y=35)
     top2.mainloop()
 
 
@@ -69,9 +69,9 @@ def top_your_friends_play():
     top3.config(bg=background_color)
     steam_logo_top3 = PhotoImage(file="SteamLogo.png")
     steam_logo_label3 = Label(top3, image=steam_logo_top3, bg=background_color)
-    steam_logo_label3.place(x=50, y=30)
+    steam_logo_label3.place(x=20, y=30)
     your_friends_play_text = Label(top3, text="Your friends play", bg=background_color, fg=white, font=("italic", 30, "bold", "underline"))
-    your_friends_play_text.place(x=140, y=35)
+    your_friends_play_text.place(x=110, y=35)
     top3.mainloop()
 
 
