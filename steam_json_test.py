@@ -1,5 +1,5 @@
 import  json
-ini = input("choose game ")#choose the game
+ini = input("choose your game (make sure its spelled correctly): ")#choose the game
 inp=0
 print('loading.....')
 while True:
