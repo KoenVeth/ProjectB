@@ -1,6 +1,7 @@
 import  json
 ini = input("choose game ")#choose the game
 inp=0
+print('loading.....')
 while True:
 
     inp=inp+1
@@ -33,9 +34,10 @@ while True:
     price = data[inp]['price']
     if price == 0:    #if price =0 return free
         price ='Free'
-    print(app_id, name, release_date, english, developer, publisher, platforms, required_age, categories,
-          genres, steamspy_tags, achievements, postive_ratings, negative_ratings, average_playtime, median_playtime,
-          owners, price)
+        #remove hashtags to show search process
+    #print(app_id, name, release_date, english, developer, publisher, platforms, required_age, categories,
+         # genres, steamspy_tags, achievements, postive_ratings, negative_ratings, average_playtime, median_playtime,
+          #owners, price)
     if inp>=0:
         inp=inp+1
         inp=inp//-1
