@@ -25,7 +25,10 @@ def cycle_change():
     mode_switch_count += 1
     if mode_switch_count % 2:
         cycle = customtkinter.set_appearance_mode("dark")
-        button_c = "#173b6c"
+        button_1.configure(fg_color="#173b6c", hover_color="#156598")
+        button_2.configure(fg_color="#173b6c", hover_color="#156598")
+        button_3.configure(fg_color="#173b6c", hover_color="#156598")
+        button_4.configure(fg_color="#173b6c", hover_color="#156598")
     else:
         cycle = customtkinter.set_appearance_mode("light")
         button_1.configure(fg_color="#242424", hover_color="#535657")
