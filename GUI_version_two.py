@@ -98,9 +98,9 @@ button_4 = CTkButton(frame_1, text="your friends play", width=165, height=35, co
 button_4.place(x=20, y=230)
 
 # Labels
-label_1 = CTkLabel(frame_1, text="Browse categories", font=("italic", 15, "bold"))
+label_1 = CTkLabel(frame_1, text="Browse categories", font=("italic", 18))
 label_1.place(x=30, y=20)
-label_2 = CTkLabel(frame_1, text="Statistics", font=("italic", 15, "bold"))
-label_2.place(x=60, y=195)
+label_2 = CTkLabel(frame_1, text="Statistics", font=("italic", 18))
+label_2.place(x=30, y=195)
 
 top1.mainloop()
