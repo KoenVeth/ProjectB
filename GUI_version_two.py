@@ -21,13 +21,17 @@ mode_switch_count = 1
 
 
 def cycle_change():
-    global cycle, mode_switch_count
+    global cycle, mode_switch_count, button_c, button_hc
     mode_switch_count += 1
     if mode_switch_count % 2:
         cycle = customtkinter.set_appearance_mode("dark")
+        button_c = "#173b6c"
     else:
         cycle = customtkinter.set_appearance_mode("light")
-
+        button_1.configure(fg_color="#242424", hover_color="#535657")
+        button_2.configure(fg_color="#242424", hover_color="#535657")
+        button_3.configure(fg_color="#242424", hover_color="#535657")
+        button_4.configure(fg_color="#242424", hover_color="#535657")
 
 
 def top_lvl_top_sellers():
@@ -76,7 +80,7 @@ def top_lvl_your_friends_play():
 
 # __________________________ Widgets __________________________ #
 # Button colors
-button_c = "#0a1e41"
+button_c = "#173b6c"
 button_hc = "#156598"
 
 frame_1 = CTkFrame(window, width=200, height=475, corner_radius=20)
@@ -94,22 +98,22 @@ steam_text.place(x=110, y=35)
 
 # Buttons
 button_1 = CTkButton(frame_1, text="Top sellers", width=165, height=35, corner_radius=20,
-                     fg_color="#173b6c", hover_color=button_hc, font=("italic", 15, "bold"),
+                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
                      command=top_lvl_top_sellers, text_color="#7c9ab5")
 button_1.place(x=20, y=60)
 
 button_2 = CTkButton(frame_1, text="New", width=165, height=35, corner_radius=20,
-                     fg_color="#173b6c", hover_color=button_hc, font=("italic", 15, "bold"),
+                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
                      command=top_lvl_new, text_color="#7c9ab5")
 button_2.place(x=20, y=105)
 
 button_3 = CTkButton(frame_1, text="Upcoming", width=165, height=35, corner_radius=20,
-                     fg_color="#173b6c", hover_color=button_hc, font=("italic", 15, "bold"),
+                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
                      command=top_lvl_upcoming, text_color="#7c9ab5")
 button_3.place(x=20, y=150)
 
 button_4 = CTkButton(frame_1, text="Your friends play", width=165, height=35, corner_radius=20,
-                     fg_color="#173b6c", hover_color=button_hc, font=("italic", 15, "bold"),
+                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
                      command=top_lvl_your_friends_play, text_color="#7c9ab5")
 button_4.place(x=20, y=230)
 
