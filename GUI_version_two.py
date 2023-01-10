@@ -79,28 +79,28 @@ frame_1.place(x=10, y=120)
 # Buttons
 button_1 = CTkButton(frame_1, text="Top sellers", width=165, height=35, corner_radius=20,
                      fg_color="#173b6c", hover_color=button_hc, font=("italic", 15, "bold"),
-                     command=top_lvl_top_sellers)
+                     command=top_lvl_top_sellers, text_color="#7c9ab5")
 button_1.place(x=20, y=60)
 
 button_2 = CTkButton(frame_1, text="New", width=165, height=35, corner_radius=20,
                      fg_color="#173b6c", hover_color=button_hc, font=("italic", 15, "bold"),
-                     command=top_lvl_new)
+                     command=top_lvl_new, text_color="#7c9ab5")
 button_2.place(x=20, y=105)
 
 button_3 = CTkButton(frame_1, text="Upcoming", width=165, height=35, corner_radius=20,
                      fg_color="#173b6c", hover_color=button_hc, font=("italic", 15, "bold"),
-                     command=top_lvl_upcoming)
+                     command=top_lvl_upcoming, text_color="#7c9ab5")
 button_3.place(x=20, y=150)
 
-button_4 = CTkButton(frame_1, text="your friends play", width=165, height=35, corner_radius=20,
+button_4 = CTkButton(frame_1, text="Your friends play", width=165, height=35, corner_radius=20,
                      fg_color="#173b6c", hover_color=button_hc, font=("italic", 15, "bold"),
-                     command=top_lvl_your_friends_play)
+                     command=top_lvl_your_friends_play, text_color="#7c9ab5")
 button_4.place(x=20, y=230)
 
 # Labels
-label_1 = CTkLabel(frame_1, text="Browse categories", font=("italic", 18))
-label_1.place(x=30, y=20)
-label_2 = CTkLabel(frame_1, text="Statistics", font=("italic", 18))
-label_2.place(x=30, y=195)
+label_1 = CTkLabel(frame_1, text="Browse categories", font=("italic", 15))
+label_1.place(x=30, y=25)
+label_2 = CTkLabel(frame_1, text="Statistics", font=("italic", 15))
+label_2.place(x=30, y=200)
 
 top1.mainloop()
