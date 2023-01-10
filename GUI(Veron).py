@@ -1,4 +1,7 @@
+from customtkinter import *
+import customtkinter
 from tkinter import *
+from PIL import Image
 
 # _______________________________ window colors _______________________________ #
 background_color = "#263159"
