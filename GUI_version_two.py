@@ -5,24 +5,30 @@ from PIL import Image
 
 
 # __________________________ Window settings __________________________ #
-top1 = CTk()
-top1.title("Steam")
-customtkinter.set_appearance_mode("dark")
-top1.geometry("900x650")
-top1.minsize(900, 650)
-top1.maxsize(900, 650)
+window = CTk()
+window.title("Steam")
+cycle = customtkinter.set_appearance_mode("dark")
+window.geometry("900x650")
+window.minsize(900, 650)
+window.maxsize(900, 650)
 steam_icon = PhotoImage(file="Steam_window_logo.png")
-top1.iconphoto(False, steam_icon)
-
-steam_logo_img = customtkinter.CTkImage(dark_image=Image.open("SteamLogo.png"), size=(64, 64))
-steam_logo_label = CTkLabel(top1, text="", image=steam_logo_img)
-steam_logo_label.place(x=20, y=30)
-
-steam_text = CTkLabel(top1, text="Steam  ", font=("italic", 30, "bold", "underline"))
-steam_text.place(x=110, y=55)
+window.iconphoto(False, steam_icon)
 
 
 # __________________________ Functions __________________________ #
+
+mode_switch_count = 1
+
+
+def cycle_change():
+    global cycle, mode_switch_count
+    mode_switch_count += 1
+    if mode_switch_count % 2:
+        cycle = customtkinter.set_appearance_mode("dark")
+    else:
+        cycle = customtkinter.set_appearance_mode("light")
+
+
 
 def top_lvl_top_sellers():
     top_1 = CTkToplevel()
@@ -73,8 +79,18 @@ def top_lvl_your_friends_play():
 button_c = "#0a1e41"
 button_hc = "#156598"
 
-frame_1 = CTkFrame(top1, width=200, height=500, corner_radius=20)
-frame_1.place(x=10, y=120)
+frame_1 = CTkFrame(window, width=200, height=475, corner_radius=20)
+frame_1.place(x=10, y=145)
+
+frame_2 = CTkFrame(window, width=880, height=100, corner_radius=20)
+frame_2.place(x=10, y=10)
+
+steam_logo_img = customtkinter.CTkImage(dark_image=Image.open("SteamLogo.png"), size=(64, 64))
+steam_logo_label = CTkLabel(frame_2, text="", image=steam_logo_img)
+steam_logo_label.place(x=20, y=15)
+
+steam_text = CTkLabel(frame_2, text="Steam  ", font=("italic", 30, "bold", "underline"))
+steam_text.place(x=110, y=35)
 
 # Buttons
 button_1 = CTkButton(frame_1, text="Top sellers", width=165, height=35, corner_radius=20,
@@ -102,5 +118,15 @@ label_1 = CTkLabel(frame_1, text="Browse categories", font=("italic", 15, "bold"
 label_1.place(x=30, y=25)
 label_2 = CTkLabel(frame_1, text="Statistics", font=("italic", 15, "bold"))
 label_2.place(x=30, y=200)
+label_3 = CTkLabel(frame_2, text="Search", font=("italic", 15, "bold"))
+label_3.place(x=650, y=10)
 
-top1.mainloop()
+# Entry & switch
+entry_1 = CTkEntry(frame_2, width=150, height=30, corner_radius=10, border_color="")
+entry_1.place(x=710, y=10)
+
+switch = CTkSwitch(frame_2, text="", command=cycle_change, switch_width=40, switch_height=15, fg_color="white",
+                   progress_color="#242424")
+switch.place(x=820, y=45)
+
+window.mainloop()
