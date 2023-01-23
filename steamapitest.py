@@ -20,15 +20,16 @@ for i in range(0,lenghtfriend):
     friendslist.append(friend)
 # Steam API link formatting for "GetOwnedGames"
 for j in range(0,lenghtfriend):
-    slink6 = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=440&key="
+    slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
     slink7 = "&steamid=" + friendslist[j] + "&include_appinfo=1&format=json"
     slink8 = slink6 + steamApiKey + slink7
     r = requests.get(slink8)
 
     # convert to JSON and save to another variable
     steam3 = r.json()
+    weeks=steam3["response"]
     #print(steam3)
-    #print(steam3["response"]["game_count"])
+    print(weeks)
 lastseenlist=[]
 onlinelist=""
 names=""
@@ -71,6 +72,6 @@ onlinelist=onlinelist.split(",")
 onlinelist.pop(-1)
 names=names.split(",")
 names.pop(-1)
-print(lastseenlist)
-print(onlinelist)
-print(names)
+#print(lastseenlist)
+#print(onlinelist)
+#print(names)
