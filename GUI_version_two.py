@@ -3,7 +3,6 @@ import customtkinter
 from tkinter import *
 from PIL import Image
 
-
 # __________________________ Window settings __________________________ #
 window = CTk()
 window.title("Steam")
@@ -18,6 +17,11 @@ window.iconphoto(False, steam_icon)
 # __________________________ Functions __________________________ #
 
 mode_switch_count = 1
+
+
+def destroy():
+    for widget in window.winfo_children():
+        widget.destroy()
 
 
 def cycle_change():
@@ -120,6 +124,10 @@ button_4 = CTkButton(frame_1, text="Your friends play", width=165, height=35, co
                      command=top_lvl_your_friends_play, text_color="#7c9ab5")
 button_4.place(x=20, y=230)
 
+button_5 = CTkButton(frame_1, text="Friends list", width=165, height=35, corner_radius=20,
+                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
+                     text_color="#7c9ab5")
+button_5.place(x=20, y=275)
 # Labels
 label_1 = CTkLabel(frame_1, text="Browse categories", font=("italic", 15, "bold"))
 label_1.place(x=30, y=25)
