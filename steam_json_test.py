@@ -36,9 +36,9 @@ while True:
     if price == 0:  # if price =0 return free
         price = 'Free'
         # remove hashtags to show search process
-    # print(app_id, name, release_date, english, developer, publisher, platforms, required_age, categories,
-    # genres, steamspy_tags, achievements, postive_ratings, negative_ratings, average_playtime, median_playtime,
-    # owners, price)
+        print(app_id, name, release_date, english, developer, publisher, platforms, required_age, categories,
+        genres, steamspy_tags, achievements, postive_ratings, negative_ratings, average_playtime, median_playtime,
+        owners, price)
     if inp >= 0:
         inp = inp + 1
         inp = inp // -1
