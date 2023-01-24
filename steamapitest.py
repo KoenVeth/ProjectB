@@ -10,20 +10,20 @@ slink4 = "&steamid=" + steamID + "&include_appinfo=1&format=json"
 slink5 = slink3 + steamApiKey + slink4
 
 r2 = requests.get(slink5)
-friendslist = []
+friends_list = []
 steam2 = r2.json()
-lenfriend = steam2["friendslist"]["friends"]
-lenghtfriend = len(lenfriend)
-for i in range(0, lenghtfriend):
+len_friend = steam2["friendslist"]["friends"]
+length_friend = len(len_friend)
+for i in range(0, length_friend):
     friend = steam2["friendslist"]["friends"][i]["steamid"]
     # print(friend)
-    friendslist.append(friend)
+    friends_list.append(friend)
 # Steam API link formatting for "GetOwnedGames"
-gamecountlist = []
-for j in range(0, lenghtfriend):
+game_count_list = []
+for j in range(0, length_friend):
 
     slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
-    slink7 = "&steamid=" + friendslist[j] + "&include_appinfo=1&format=json"
+    slink7 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json"
     slink8 = slink6 + steamApiKey + slink7
     r = requests.get(slink8)
 
@@ -32,19 +32,19 @@ for j in range(0, lenghtfriend):
     steam3 = r.json()
     # weeks=steam3["response"]["games"]
     if steam3 == {'response': {}}:
-        gamecountlist.append(0)
+        game_count_list.append(0)
         continue
     games = steam3["response"]["game_count"]
-    gamecountlist.append(games)
+    game_count_list.append(games)
     # print(steam3)
-print(gamecountlist)
+print(game_count_list)
 
-lastseenlist = []
+last_seen_list = []
 online_list = ""
 names = ""
-for j in range(0, lenghtfriend):
+for j in range(0, length_friend):
     slink1 = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="
-    slink2 = "&steamids=" + friendslist[j] + "&include_appinfo=1&format=json"
+    slink2 = "&steamids=" + friends_list[j] + "&include_appinfo=1&format=json"
     slink = slink1 + steamApiKey + slink2
 
     # Sent API Get request and save respond to a variable
@@ -69,14 +69,11 @@ for j in range(0, lenghtfriend):
         online_list += "Looking to play,"
     name = steam["response"]["players"][0]["personaname"]
     names += name + ","
-    lastseen = steam["response"]["players"][0]["lastlogoff"]
-    dt_utc_naive = datetime.datetime.utcfromtimestamp(lastseen)
-    lasttime = dt_utc_naive.strftime(" %H:%M:%S %d-%m-%Y")
-    lastseenlist.append(lasttime)
+    last_seen = steam["response"]["players"][0]["lastlogoff"]
+    dt_utc_naive = datetime.datetime.utcfromtimestamp(last_seen)
+    last_time = dt_utc_naive.strftime(" %H:%M:%S %d-%m-%Y")
+    last_seen_list.append(last_time)
 
-    # JSON output with information about each game owned
-    # print(steam)
-    # https://developer.valvesoftware.com/wiki/Steam_Web_API#GetOwnedGames_.28v0001.29
 online_list = online_list.split(",")
 online_list.pop(-1)
 names = names.split(",")
