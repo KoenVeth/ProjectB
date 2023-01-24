@@ -81,9 +81,7 @@ online_list = online_list.split(",")
 online_list.pop(-1)
 names = names.split(",")
 names.pop(-1)
-# print(lastseenlist)
-# print(onlinelist)
-# print(names)
-
-
+#print(lastseenlist)
+#print(online_list)
+#print(names)
 
