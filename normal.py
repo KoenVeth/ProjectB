@@ -1,5 +1,4 @@
 import requests
-import statistics
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import norm
@@ -39,13 +38,23 @@ for j in range(0, lenghtfriend):
     gamecountlist.append(games)
 
 
+gamecountlist.sort()
 
-mean=statistics.mean(gamecountlist)
-stvdev=statistics.stdev(gamecountlist)
-print(mean,stvdev)
+mean=sum(gamecountlist)//len(gamecountlist)
 
-
-
-x = np.arange(0, 400,1.0)
-plt.plot(x, norm.pdf(x, mean, stvdev))
+newlist = []
+# haal elk punt van het gemiddelde af
+for i in range(0, len(gamecountlist)):
+    a = gamecountlist[i] - mean
+    # kwadrateer dat
+    a = a ** 2
+    newlist.append(a)
+    # sommeer al die kwadraten
+sum_a = sum(newlist)
+    # deel dat door het aantal orginele getallen
+res = sum_a / len(gamecountlist)
+sd=res**0.5
+print(sd,mean)
+x_axis = np.arange(gamecountlist[0], gamecountlist[-1], 1)
+plt.plot(x_axis, norm.pdf(x_axis, mean, sd))
 plt.show()
