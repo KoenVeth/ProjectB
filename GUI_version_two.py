@@ -45,21 +45,6 @@ def home_screen():
     steam_text_home.place(x=110, y=35)
 
     # Buttons
-    button_1_home = CTkButton(frame_1_home, text="Top sellers", width=165, height=35, corner_radius=20,
-                              fg_color=button_color, hover_color=button_hover_color, font=("italic", 15, "bold"),
-                              command=top_lvl_top_sellers, text_color="#7c9ab5")
-    button_1_home.place(x=20, y=60)
-
-    button_2_home = CTkButton(frame_1_home, text="New", width=165, height=35, corner_radius=20,
-                              fg_color=button_color, hover_color=button_hover_color, font=("italic", 15, "bold"),
-                              command=top_lvl_new, text_color="#7c9ab5")
-    button_2_home.place(x=20, y=105)
-
-    button_3_home = CTkButton(frame_1_home, text="Upcoming", width=165, height=35, corner_radius=20,
-                              fg_color=button_color, hover_color=button_hover_color, font=("italic", 15, "bold"),
-                              command=top_lvl_upcoming, text_color="#7c9ab5")
-    button_3_home.place(x=20, y=150)
-
     button_4_home = CTkButton(frame_1_home, text="Your friends play", width=165, height=35, corner_radius=20,
                               fg_color=button_color, hover_color=button_hover_color, font=("italic", 15, "bold"),
                               command=top_lvl_your_friends_play, text_color="#7c9ab5")
@@ -210,49 +195,10 @@ def cycle_change():
     mode_switch_count += 1
     if mode_switch_count % 2:
         cycle = customtkinter.set_appearance_mode("dark")
-        button_1.configure(fg_color="#173b6c", hover_color="#156598")
-        button_2.configure(fg_color="#173b6c", hover_color="#156598")
-        button_3.configure(fg_color="#173b6c", hover_color="#156598")
         button_4.configure(fg_color="#173b6c", hover_color="#156598")
     else:
         cycle = customtkinter.set_appearance_mode("light")
-        button_1.configure(fg_color="#242424", hover_color="#535657")
-        button_2.configure(fg_color="#242424", hover_color="#535657")
-        button_3.configure(fg_color="#242424", hover_color="#535657")
         button_4.configure(fg_color="#242424", hover_color="#535657")
-
-
-def top_lvl_top_sellers():
-    top_1 = CTkToplevel()
-    top_1.title("Top sellers")
-    customtkinter.set_appearance_mode("dark")
-    top_1.geometry("900x650")
-    top_1.minsize(900, 650)
-    top_1.maxsize(900, 650)
-    steam_icon1 = PhotoImage(file="Steam_window_logo.png")
-    top_1.iconphoto(False, steam_icon1)
-
-
-def top_lvl_new():
-    top_2 = CTkToplevel()
-    top_2.title("New releases")
-    customtkinter.set_appearance_mode("dark")
-    top_2.geometry("900x650")
-    top_2.minsize(900, 650)
-    top_2.maxsize(900, 650)
-    steam_icon1 = PhotoImage(file="Steam_window_logo.png")
-    top_2.iconphoto(False, steam_icon1)
-
-
-def top_lvl_upcoming():
-    top_3 = CTkToplevel()
-    top_3.title("Upcoming Games")
-    customtkinter.set_appearance_mode("dark")
-    top_3.geometry("900x650")
-    top_3.minsize(900, 650)
-    top_3.maxsize(900, 650)
-    steam_icon1 = PhotoImage(file="Steam_window_logo.png")
-    top_3.iconphoto(False, steam_icon1)
 
 
 def top_lvl_your_friends_play():
@@ -285,21 +231,6 @@ steam_text = CTkLabel(frame_2, text="Steam  ", font=("italic", 30, "bold", "unde
 steam_text.place(x=110, y=35)
 
 # Buttons
-button_1 = CTkButton(frame_1, text="Top sellers", width=165, height=35, corner_radius=20,
-                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
-                     command=top_lvl_top_sellers, text_color="#7c9ab5")
-button_1.place(x=20, y=60)
-
-button_2 = CTkButton(frame_1, text="New", width=165, height=35, corner_radius=20,
-                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
-                     command=top_lvl_new, text_color="#7c9ab5")
-button_2.place(x=20, y=105)
-
-button_3 = CTkButton(frame_1, text="Upcoming", width=165, height=35, corner_radius=20,
-                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
-                     command=top_lvl_upcoming, text_color="#7c9ab5")
-button_3.place(x=20, y=150)
-
 button_4 = CTkButton(frame_1, text="Your friends play", width=165, height=35, corner_radius=20,
                      fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
                      command=top_lvl_your_friends_play, text_color="#7c9ab5")
@@ -309,6 +240,7 @@ button_5 = CTkButton(frame_1, text="Friends list", width=165, height=35, corner_
                      fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"),
                      text_color="#7c9ab5", command=clicked_fiend_list)
 button_5.place(x=20, y=275)
+
 # Labels
 label_1 = CTkLabel(frame_1, text="Browse categories", font=("italic", 15, "bold"))
 label_1.place(x=30, y=25)
