@@ -43,6 +43,7 @@ gamecountlist.sort()
 mean=sum(gamecountlist)//len(gamecountlist)
 
 newlist = []
+numberlist=[]
 # haal elk punt van het gemiddelde af
 for i in range(0, len(gamecountlist)):
     a = gamecountlist[i] - mean
@@ -54,7 +55,8 @@ sum_a = sum(newlist)
     # deel dat door het aantal orginele getallen
 res = sum_a / len(gamecountlist)
 sd=res**0.5
-print(sd,mean)
 x_axis = np.arange(gamecountlist[0], gamecountlist[-1], 1)
-plt.plot(x_axis, norm.pdf(x_axis, mean, sd))
+plt.plot(x_axis, norm.pdf(x_axis, mean,sd))
+plt.xlabel("aantal games")
+plt.ylabel("kansverdeling")
 plt.show()
