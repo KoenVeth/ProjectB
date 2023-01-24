@@ -84,4 +84,5 @@ names.pop(-1)
 # print(lastseenlist)
 # print(onlinelist)
 # print(names)
+print(gamecountlist)
 
