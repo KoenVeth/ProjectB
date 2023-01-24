@@ -37,7 +37,7 @@ for j in range(0, lenghtfriend):
     games = steam3["response"]["game_count"]
     gamecountlist.append(games)
     # print(steam3)
-# print(gamecountlist)
+print(gamecountlist)
 
 lastseenlist = []
 online_list = ""
@@ -81,7 +81,7 @@ online_list = online_list.split(",")
 online_list.pop(-1)
 names = names.split(",")
 names.pop(-1)
-# print(lastseenlist)
-# print(onlinelist)
-# print(names)
+#print(lastseenlist)
+#print(online_list)
+#print(names)
 
