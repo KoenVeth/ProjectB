@@ -1,10 +1,12 @@
 from customtkinter import *
 import customtkinter
 from tkinter import *
-from tkinter import messagebox
 from PIL import Image
 import datetime
 import requests
+import pytz
+
+print("Loading.....\n")
 
 # __________________________ Window settings __________________________ #
 window = CTk()
@@ -25,6 +27,7 @@ slink4 = "&steamid=" + steamID + "&include_appinfo=1&format=json"
 slink5 = slink3 + steamApiKey + slink4
 
 r2 = requests.get(slink5)
+print("Gathering friends list.")
 friends_list = []
 steam2 = r2.json()
 len_friend = steam2["friendslist"]["friends"]
@@ -34,6 +37,9 @@ for i in range(0, length_friend):
     # print(friend)
     friends_list.append(friend)
 # Steam API link formatting for "GetOwnedGames"
+print("Done!\n")
+
+print("Gathering friend statistics.")
 game_count_list = []
 for j in range(0, length_friend):
 
@@ -52,7 +58,9 @@ for j in range(0, length_friend):
     games = steam3["response"]["game_count"]
     game_count_list.append(games)
     # print(steam3)
+print("Done!\n")
 
+print("Gathering friends data.")
 last_seen_list = []
 online_list = ""
 names = ""
@@ -85,14 +93,19 @@ for j in range(0, length_friend):
     names += name + ","
     last_seen = steam["response"]["players"][0]["lastlogoff"]
     dt_utc_naive = datetime.datetime.utcfromtimestamp(last_seen)
-    last_time = dt_utc_naive.strftime(" %H:%M  %d-%m-%Y")
+    utc = dt_utc_naive.replace(tzinfo=pytz.utc)
+    tz = pytz.timezone('Europe/Berlin')
+    cet = utc.astimezone(tz)
+    last_time = cet.strftime(" %H:%M  %d-%m-%Y")
     last_seen_list.append(last_time)
 
 online_list = online_list.split(",")
 online_list.pop(-1)
 names = names.split(",")
 names.pop(-1)
+print("Done!\n")
 
+print("All done!")
 # __________________________ Functions __________________________ #
 mode_switch_count = 1
 
@@ -186,8 +199,8 @@ def home_screen():
     button_color = "#173b6c"
     button_hover_color = "#156598"
 
-    frame_1_home = CTkFrame(window, width=200, height=475, corner_radius=20)
-    frame_1_home.place(x=10, y=145)
+    frame_1_home = CTkFrame(window, width=200, height=505, corner_radius=20)
+    frame_1_home.place(x=10, y=125)
 
     frame_2_home = CTkFrame(window, width=880, height=100, corner_radius=20)
     frame_2_home.place(x=10, y=10)
@@ -196,33 +209,37 @@ def home_screen():
     steam_logo_label_home = CTkLabel(frame_2_home, text="", image=steam_logo_img_home)
     steam_logo_label_home.place(x=20, y=15)
 
-    steam_text_home = CTkLabel(frame_2_home, text="Steam  ", font=("italic", 30, "bold", "underline"))
+    steam_text_home = CTkLabel(frame_2_home, text="Steam     ", font=("italic", 30, "bold", "underline"))
     steam_text_home.place(x=110, y=35)
 
     # Buttons
-    button_4_home = CTkButton(frame_1_home, text="Your friends play", width=165, height=80, corner_radius=20,
+    button_4_home = CTkButton(frame_1_home, text="Your friends play", width=165, height=150, corner_radius=20,
                               fg_color=button_color, hover_color=button_hover_color, font=("italic", 15, "bold"),
                               text_color="white")
     button_4_home.place(x=20, y=50)
 
-    button_5_home = CTkButton(frame_1_home, text="Friends list", width=165, height=80, corner_radius=20,
+    button_5_home = CTkButton(frame_1_home, text="Friends list", width=165, height=150, corner_radius=20,
                               fg_color=button_color, hover_color=button_hover_color, font=("italic", 15, "bold"),
                               text_color="white", command=clicked_fiend_list)
-    button_5_home.place(x=20, y=150)
+    button_5_home.place(x=20, y=210)
     # Labels
     label_2_home = CTkLabel(frame_1_home, text="Statistics", font=("italic", 15, "bold"))
     label_2_home.place(x=30, y=20)
-    label_3_home = CTkLabel(frame_2_home, text="Search", font=("italic", 15, "bold"))
-    label_3_home.place(x=650, y=10)
+    image = customtkinter.CTkImage(dark_image=Image.open("search-interface-symbol.png"), size=(30, 30))
+    label_3_home = CTkLabel(frame_2_home, text="", image=image)
+    label_3_home.place(x=655, y=35)
+
+    image2 = customtkinter.CTkImage(dark_image=Image.open("valve.png"), size=(64, 64))
+    label_4_home = CTkLabel(frame_1_home, text="", image=image2)
+    label_4_home.place(x=120, y=440)
 
     # Entry & switch
-    entry_1_home = CTkEntry(frame_2_home, width=150, height=30, corner_radius=10, border_color="")
-    entry_1_home.place(x=710, y=10)
+    entry_1_home = CTkEntry(frame_2_home, width=350, height=60, corner_radius=20, border_color="")
+    entry_1_home.place(x=300, y=20)
 
-    switch_home = CTkSwitch(frame_2_home, text="", command=cycle_change, switch_width=40, switch_height=15,
-                            fg_color="white",
-                            progress_color="#242424")
-    switch_home.place(x=820, y=45)
+    switch_home = CTkSwitch(frame_2_home, text="", switch_width=40, switch_height=15, fg_color="white",
+                            progress_color="#242424", command=cycle_change)
+    switch_home.place(x=830, y=65)
 
 
 def clicked_fiend_list():
@@ -307,25 +324,26 @@ def clicked_game_data():
                            hover_color="#1D1E1E", font=("italic", 17, "bold"), command=clicked_fiend_list)
     button_one.place(x=340, y=550)
 
+    img = customtkinter.CTkImage(dark_image=Image.open("data-analysis.png"), size=(150, 150))
+    label_seven = CTkLabel(frame1, text="", image=img)
+    label_seven.place(x=20, y=400)
+
 
 def cycle_change():
     global cycle, mode_switch_count, button_c, button_hc
     mode_switch_count += 1
     if mode_switch_count % 2:
         cycle = customtkinter.set_appearance_mode("dark")
-        button_4.configure(fg_color="#173b6c", hover_color="#156598")
-        button_5.configure(fg_color="#173b6c", hover_color="#156598")
     else:
         cycle = customtkinter.set_appearance_mode("light")
-        button_4.configure(fg_color="#242424", hover_color="#535657")
-        button_5.configure(fg_color="#242424", hover_color="#535657")
+
 
 # __________________________ Widgets __________________________ #
 # Button colors
 button_c = "#173b6c"
 button_hc = "#156598"
 
-frame_1 = CTkFrame(window, width=200, height=495, corner_radius=10)
+frame_1 = CTkFrame(window, width=200, height=505, corner_radius=10)
 frame_1.place(x=10, y=125)
 
 frame_2 = CTkFrame(window, width=880, height=100, corner_radius=10)
@@ -339,26 +357,33 @@ steam_text = CTkLabel(frame_2, text="Steam  ", font=("italic", 30, "bold", "unde
 steam_text.place(x=110, y=35)
 
 # Buttons
-button_4 = CTkButton(frame_1, text="Your friends play", width=165, height=80, corner_radius=20,
+button_4 = CTkButton(frame_1, text="Your friends play", width=165, height=150, corner_radius=20,
                      fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"))
 button_4.place(x=20, y=50)
 
-button_5 = CTkButton(frame_1, text="Friends list", width=165, height=80, corner_radius=20,
+button_5 = CTkButton(frame_1, text="Friends list", width=165, height=150, corner_radius=20,
                      fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"), command=clicked_fiend_list)
-button_5.place(x=20, y=150)
+button_5.place(x=20, y=210)
 
 # Labels
 label_2 = CTkLabel(frame_1, text="Statistics", font=("italic", 15, "bold"))
 label_2.place(x=30, y=20)
-label_3 = CTkLabel(frame_2, text="Search", font=("italic", 15, "bold"))
-label_3.place(x=650, y=10)
+
+img = customtkinter.CTkImage(dark_image=Image.open("search-interface-symbol.png"), size=(30, 30))
+label_3 = CTkLabel(frame_2, text="", image=img)
+label_3.place(x=655, y=35)
+
+
+img2 = customtkinter.CTkImage(dark_image=Image.open("valve.png"), size=(64, 64))
+label_4 = CTkLabel(frame_1, text="", image=img2)
+label_4.place(x=120, y=440)
 
 # Entry & switch
-entry_1 = CTkEntry(frame_2, width=150, height=30, corner_radius=10, border_color="")
-entry_1.place(x=710, y=10)
+entry_1 = CTkEntry(frame_2, width=350, height=60, corner_radius=20, border_color="")
+entry_1.place(x=300, y=20)
 
-switch = CTkSwitch(frame_2, text="", command=cycle_change, switch_width=40, switch_height=15, fg_color="white",
-                   progress_color="#242424")
-switch.place(x=820, y=45)
+switch = CTkSwitch(frame_2, text="", switch_width=40, switch_height=15, fg_color="white",
+                   progress_color="#242424", command=cycle_change)
+switch.place(x=830, y=65)
 
 window.mainloop()
