@@ -85,7 +85,7 @@ for j in range(0, length_friend):
     names += name + ","
     last_seen = steam["response"]["players"][0]["lastlogoff"]
     dt_utc_naive = datetime.datetime.utcfromtimestamp(last_seen)
-    last_time = dt_utc_naive.strftime(" %H:%M:%S %d-%m-%Y")
+    last_time = dt_utc_naive.strftime(" %H:%M  %d-%m-%Y")
     last_seen_list.append(last_time)
 
 online_list = online_list.split(",")
@@ -228,9 +228,9 @@ def home_screen():
 def clicked_fiend_list():
     destroy()
     window.title("Friends list")
-    textbox1 = CTkTextbox(window, width=250, height=500, font=("italic", 20), fg_color="#1D1E1E")
-    textbox1.place(x=37.5, y=100)
 
+    textbox1 = CTkTextbox(window, width=250, height=500, font=("italic", 20), fg_color="#1D1E1E", text_color="white")
+    textbox1.place(x=37.5, y=100)
     name_str = ""
     counter1 = 1
     for name in names:
@@ -238,7 +238,7 @@ def clicked_fiend_list():
         counter1 += 1
     textbox1.insert(0.0, name_str)
 
-    textbox2 = CTkTextbox(window, width=250, height=500, font=("italic", 20), fg_color="#1D1E1E")
+    textbox2 = CTkTextbox(window, width=250, height=500, font=("italic", 20), fg_color="#1D1E1E", text_color="white")
     textbox2.place(x=325, y=100)
 
     online_str = ""
@@ -248,7 +248,7 @@ def clicked_fiend_list():
         counter2 += 1
     textbox2.insert(0.0, online_str)
 
-    textbox3 = CTkTextbox(window, width=250, height=500, font=("italic", 20), fg_color="#1D1E1E")
+    textbox3 = CTkTextbox(window, width=250, height=500, font=("italic", 20), fg_color="#1D1E1E", text_color="white")
     textbox3.place(x=612.5, y=100)
 
     log_off = ""
@@ -285,22 +285,22 @@ def clicked_game_data():
     frame1 = CTkFrame(window, width=430, height=610, fg_color="#1D1E1E")
     frame1.place(x=450, y=20)
 
-    label_one = CTkLabel(frame1, text=f"Average: {average}", font=("italic", 25, "bold"))
+    label_one = CTkLabel(frame1, text=f"Average: {average}", font=("italic", 25, "bold"), text_color="white")
     label_one.place(x=20, y=20)
 
-    label_two = CTkLabel(frame1, text=f"Range: {range_lst}", font=("italic", 25, "bold"))
+    label_two = CTkLabel(frame1, text=f"Range: {range_lst}", font=("italic", 25, "bold"), text_color="white")
     label_two.place(x=20, y=80)
 
-    label_three = CTkLabel(frame1, text=f"Median: {median()}", font=("italic", 25, "bold"))
+    label_three = CTkLabel(frame1, text=f"Median: {median()}", font=("italic", 25, "bold"), text_color="white")
     label_three.place(x=20, y=140)
 
-    label_four = CTkLabel(frame1, text=f"Variance: {var()}", font=("italic", 25, "bold"))
+    label_four = CTkLabel(frame1, text=f"Variance: {var()}", font=("italic", 25, "bold"), text_color="white")
     label_four.place(x=20, y=200)
 
-    label_five = CTkLabel(frame1, text=f"Modes: {modes()}", font=("italic", 25, "bold"))
+    label_five = CTkLabel(frame1, text=f"Modes: {modes()}", font=("italic", 25, "bold"), text_color="white")
     label_five.place(x=20, y=260)
 
-    label_six = CTkLabel(frame1, text=f"Standard deviance: {std()}", font=("italic", 25, "bold"))
+    label_six = CTkLabel(frame1, text=f"Standard deviance: {std()}", font=("italic", 25, "bold"), text_color="white")
     label_six.place(x=20, y=320)
 
     button_one = CTkButton(frame1, text="Back", width=80, height=50, fg_color="#173b6c",
@@ -314,10 +314,11 @@ def cycle_change():
     if mode_switch_count % 2:
         cycle = customtkinter.set_appearance_mode("dark")
         button_4.configure(fg_color="#173b6c", hover_color="#156598")
+        button_5.configure(fg_color="#173b6c", hover_color="#156598")
     else:
         cycle = customtkinter.set_appearance_mode("light")
         button_4.configure(fg_color="#242424", hover_color="#535657")
-
+        button_5.configure(fg_color="#242424", hover_color="#535657")
 
 # __________________________ Widgets __________________________ #
 # Button colors
