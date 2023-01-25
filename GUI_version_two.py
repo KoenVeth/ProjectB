@@ -5,6 +5,8 @@ from PIL import Image
 import datetime
 import requests
 import pytz
+import json
+import operator
 
 print("Loading.....\n")
 
@@ -205,6 +207,12 @@ def home_screen():
     frame_2_home = CTkFrame(window, width=880, height=100, corner_radius=20)
     frame_2_home.place(x=10, y=10)
 
+    frame_3_home = CTkFrame(window, width=670, height=505, corner_radius=10)
+    frame_3_home.place(x=220, y=125)
+
+    textbox_1_home = CTkTextbox(frame_3_home, width=600, height=450, corner_radius=10, fg_color="#1D1E1E")
+    textbox_1_home.place(x=35, y=27.5)
+
     steam_logo_img_home = customtkinter.CTkImage(dark_image=Image.open("SteamLogo.png"), size=(64, 64))
     steam_logo_label_home = CTkLabel(frame_2_home, text="", image=steam_logo_img_home)
     steam_logo_label_home.place(x=20, y=15)
@@ -324,8 +332,8 @@ def clicked_game_data():
                            hover_color="#1D1E1E", font=("italic", 17, "bold"), command=clicked_fiend_list)
     button_one.place(x=340, y=550)
 
-    img = customtkinter.CTkImage(dark_image=Image.open("data-analysis.png"), size=(150, 150))
-    label_seven = CTkLabel(frame1, text="", image=img)
+    img1 = customtkinter.CTkImage(dark_image=Image.open("data-analysis.png"), size=(150, 150))
+    label_seven = CTkLabel(frame1, text="", image=img1)
     label_seven.place(x=20, y=400)
 
 
@@ -348,6 +356,12 @@ frame_1.place(x=10, y=125)
 
 frame_2 = CTkFrame(window, width=880, height=100, corner_radius=10)
 frame_2.place(x=10, y=10)
+
+frame_3 = CTkFrame(window, width=670, height=505, corner_radius=10)
+frame_3.place(x=220, y=125)
+
+textbox_1 = CTkTextbox(frame_3, width=600, height=450, corner_radius=10, fg_color="#1D1E1E")
+textbox_1.place(x=35, y=27.5)
 
 steam_logo_img = customtkinter.CTkImage(dark_image=Image.open("SteamLogo.png"), size=(64, 64))
 steam_logo_label = CTkLabel(frame_2, text="", image=steam_logo_img)
@@ -385,5 +399,11 @@ entry_1.place(x=300, y=20)
 switch = CTkSwitch(frame_2, text="", switch_width=40, switch_height=15, fg_color="white",
                    progress_color="#242424", command=cycle_change)
 switch.place(x=830, y=65)
+
+button_6 = CTkButton(frame_2, text="search")
+button_6.place(x=700, y=20)
+
+button_7 = CTkButton(frame_2, text="Review")
+button_7.place(x=700, y=2)
 
 window.mainloop()
