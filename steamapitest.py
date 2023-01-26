@@ -2,8 +2,10 @@ import requests
 import random
 import datetime
 
+#steamApiKey="AAFB2DC04D5E96CD98660900ADC52FAC"
 steamApiKey = "BBD242CD0468A435B14FB923B302231D"
-steamID = "76561198351674547"
+#steamID="76561198978002270"#p
+steamID = "76561198351674547"#i
 
 slink3 = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="
 slink4 = "&steamid=" + steamID + "&include_appinfo=1&format=json"
@@ -20,6 +22,7 @@ for i in range(0, length_friend):
     friends_list.append(friend)
 # Steam API link formatting for "GetOwnedGames"
 game_count_list = []
+gameslist=""
 for j in range(0, length_friend):
 
     slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
@@ -28,16 +31,19 @@ for j in range(0, length_friend):
     r = requests.get(slink8)
 
     # convert to JSON and save to another variable
-
     steam3 = r.json()
-    # weeks=steam3["response"]["games"]
     if steam3 == {'response': {}}:
         game_count_list.append(0)
         continue
+    choice = random.choice(range(0, len(steam3["response"]["games"]) - 1))
+    randomgame = steam3["response"]["games"][choice]["name"]
+    if randomgame not in gameslist:
+        gameslist+=randomgame+";"
     games = steam3["response"]["game_count"]
     game_count_list.append(games)
-    # print(steam3)
-print(game_count_list)
+    print(steam3)
+#print(game_count_list)
+#print(gameslist)
 
 last_seen_list = []
 online_list = ""
