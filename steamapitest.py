@@ -41,7 +41,7 @@ for j in range(0, length_friend):
         gameslist+=randomgame+";"
     games = steam3["response"]["game_count"]
     game_count_list.append(games)
-    print(steam3)
+    #print(steam3)
 #print(game_count_list)
 #print(gameslist)
 
