@@ -43,7 +43,7 @@ for j in range(0, length_friend):
     game_count_list.append(games)
     #print(steam3)
 #print(game_count_list)
-#print(gameslist)
+print(gameslist)
 
 last_seen_list = []
 online_list = ""
@@ -84,6 +84,11 @@ online_list = online_list.split(",")
 online_list.pop(-1)
 names = names.split(",")
 names.pop(-1)
+friends_online=[]
+for k in range(0,length_friend):
+    if online_list[k]=="Online":
+        friends_online.append(names[k])
+print(friends_online)
 #print(lastseenlist)
 #print(online_list)
 #print(names)
