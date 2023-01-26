@@ -224,7 +224,7 @@ def home_screen():
     # Buttons
     button_4_home = CTkButton(frame_1_home, text="Your friends play", width=165, height=150, corner_radius=20,
                               fg_color=button_color, hover_color=button_hover_color, font=("italic", 15, "bold"),
-                              text_color="white")
+                              text_color="white", command=clicked_yfp)
     button_4_home.place(x=20, y=50)
 
     button_5_home = CTkButton(frame_1_home, text="Friends list", width=165, height=150, corner_radius=20,
@@ -232,7 +232,8 @@ def home_screen():
                               text_color="white", command=clicked_fiend_list)
     button_5_home.place(x=20, y=210)
 
-    button_6_home = CTkButton(frame_2_home, text="search", fg_color=button_c, hover_color=button_hc, command=lambda: call2())
+    button_6_home = CTkButton(frame_2_home, text="search", fg_color=button_c, hover_color=button_hc,
+                              command=lambda: call2())
     button_6_home.place(x=700, y=20)
     # Labels
     label_2_home = CTkLabel(frame_1_home, text="Statistics", font=("italic", 15, "bold"))
@@ -396,6 +397,44 @@ def clicked_game_data():
         error_label.place(x=350, y=280)
 
 
+def clicked_yfp():
+    destroy()
+    window.title("Your friends play")
+    frame_1_friends = CTkFrame(window, width=650, height=125, corner_radius=10)
+    frame_1_friends.place(x=10, y=10)
+
+    frame_2_friends = CTkFrame(window, width=220, height=620, corner_radius=10)
+    frame_2_friends.place(x=670, y=10)
+
+    img_1_friends = customtkinter.CTkImage(dark_image=Image.open("team.png"), size=(100, 100))
+    label_1_friends = CTkLabel(frame_2_friends, text="", image=img_1_friends)
+    label_1_friends.place(x=60, y=500)
+
+    label_2_friends = CTkLabel(window, text="Games your friends play", font=("Italic", 30, "bold"))
+    label_2_friends.place(x=10, y=150)
+
+    img_2_friends = customtkinter.CTkImage(dark_image=Image.open("steam_baner-modified.png"), size=(250, 100))
+    label_3_friends = CTkLabel(frame_1_friends, text="", image=img_2_friends)
+    label_3_friends.place(x=200, y=10)
+
+    label_3_friends = CTkLabel(frame_2_friends, text="Online right now!", font=("italic", 20, "bold"))
+    label_3_friends.place(x=15, y=160)
+
+    img_3_friends = customtkinter.CTkImage(dark_image=Image.open("valve (1).png"), size=(250, 125))
+    label_4_friends = CTkLabel(frame_1_friends, text="", image=img_3_friends)
+    label_4_friends.place(x=350, y=0)
+
+    textbox_1_friends = CTkTextbox(window, width=650, height=430, corner_radius=10, fg_color="#1D1E1E")
+    textbox_1_friends.place(x=10, y=200)
+
+    textbox_2_friends = CTkTextbox(frame_2_friends, width=200, height=300, corner_radius=10, fg_color="#1D1E1E")
+    textbox_2_friends.place(x=10, y=190)
+
+    button_1_friends = CTkButton(frame_2_friends, width=200, height=70, text="Home", font=("italic", 17, "bold"),
+                                 fg_color="#173b6c", hover_color="#1D1E1E", command=home_screen)
+    button_1_friends.place(x=10, y=30)
+
+
 def cycle_change():
     global cycle, mode_switch_count, button_c, button_hc
     mode_switch_count += 1
@@ -432,7 +471,7 @@ steam_text.place(x=110, y=35)
 
 # Buttons
 button_4 = CTkButton(frame_1, text="Your friends play", width=165, height=150, corner_radius=20,
-                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"))
+                     fg_color=button_c, hover_color=button_hc, font=("italic", 15, "bold"), command=clicked_yfp)
 button_4.place(x=20, y=50)
 
 button_5 = CTkButton(frame_1, text="Friends list", width=165, height=150, corner_radius=20,
