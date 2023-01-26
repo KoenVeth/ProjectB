@@ -1,6 +1,8 @@
 import requests
 import random
 import datetime
+import json
+import operator
 
 #steamApiKey="AAFB2DC04D5E96CD98660900ADC52FAC"
 steamApiKey = "BBD242CD0468A435B14FB923B302231D"
@@ -43,7 +45,7 @@ for j in range(0, length_friend):
     game_count_list.append(games)
     #print(steam3)
 #print(game_count_list)
-print(gameslist)
+#print(gameslist)
 
 last_seen_list = []
 online_list = ""
@@ -88,8 +90,45 @@ friends_online=[]
 for k in range(0,length_friend):
     if online_list[k]=="Online":
         friends_online.append(names[k])
-print(friends_online)
+#print(friends_online)
 #print(lastseenlist)
 #print(online_list)
 #print(names)
+#most played games
+playlist=[]
+for j in range(0, length_friend):
 
+    slink9 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
+    slink10 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json"
+    slink11 = slink9 + steamApiKey + slink10
+    r = requests.get(slink11)
+    playlist_player=[]
+    # convert to JSON and save to another variable
+    steam4 = r.json()
+    if steam4 == {'response': {}}:
+        continue
+    for s in range(0, len(steam4['response']['games'])-1):
+       playtime= steam4['response']['games'][s]['playtime_forever']
+       playlist_player.append(playtime)
+    max_playtime=max(playlist_player)
+    max_index=playlist_player.index(max_playtime)
+    mostplayed=steam4['response']['games'][max_index]['name']
+    playlist.append(mostplayed)
+
+    #print(steam4)
+
+print(playlist)
+#top3 games
+most_occuring= max(playlist, key=playlist.count)
+top3=[]
+top3.append(most_occuring)
+playlist.remove(most_occuring)
+most_occuring2= max(playlist, key=playlist.count)
+top3=[]
+top3.append(most_occuring2)
+playlist.remove(most_occuring2)
+most_occuring3= max(playlist, key=playlist.count)
+top3=[]
+top3.append(most_occuring3)
+playlist.remove(most_occuring3)
+print(top3)
