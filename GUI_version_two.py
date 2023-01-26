@@ -210,7 +210,8 @@ def home_screen():
     frame_3_home = CTkFrame(window, width=670, height=505, corner_radius=10)
     frame_3_home.place(x=220, y=125)
 
-    textbox_1_home = CTkTextbox(frame_3_home, width=600, height=450, corner_radius=10, fg_color="#1D1E1E")
+    textbox_1_home = CTkTextbox(frame_3_home, width=600, height=450, corner_radius=10, fg_color="#1D1E1E",
+                                font=("italic", 15),  text_color="white")
     textbox_1_home.place(x=35, y=27.5)
 
     steam_logo_img_home = customtkinter.CTkImage(dark_image=Image.open("SteamLogo.png"), size=(64, 64))
@@ -230,6 +231,9 @@ def home_screen():
                               fg_color=button_color, hover_color=button_hover_color, font=("italic", 15, "bold"),
                               text_color="white", command=clicked_fiend_list)
     button_5_home.place(x=20, y=210)
+
+    button_6_home = CTkButton(frame_2_home, text="search", fg_color=button_c, hover_color=button_hc, command=lambda: call2())
+    button_6_home.place(x=700, y=20)
     # Labels
     label_2_home = CTkLabel(frame_1_home, text="Statistics", font=("italic", 15, "bold"))
     label_2_home.place(x=30, y=20)
@@ -248,6 +252,55 @@ def home_screen():
     switch_home = CTkSwitch(frame_2_home, text="", switch_width=40, switch_height=15, fg_color="white",
                             progress_color="#242424", command=cycle_change)
     switch_home.place(x=830, y=65)
+
+    def binary_search_algorithm2(data, min, max, game2):
+        if max >= min:
+            mid = (max + min) // 2
+            if data[mid]["name"] == game2:
+                return mid
+            elif data[mid]["name"] > game2:
+                return binary_search_algorithm2(data, min, mid - 1, game2)
+            else:
+                return binary_search_algorithm2(data, mid + 1, max, game2)
+        else:
+            return -1
+
+    def call2():
+        textbox_1_home.delete(0.0, END)
+        game2 = entry_1_home.get()
+        result2 = binary_search_algorithm2(data, 0, len(data) - 1, game2)
+
+        if result2 != -1:
+            appid = data[result2]["appid"]
+            name = data[result2]["name"]
+            release_date = data[result2]["release_date"]
+            english = data[result2]["english"]
+            if english == 0:
+                english = "No"
+            else:
+                english = "Yes"
+            developer = data[result2]["developer"]
+            publisher = data[result2]["publisher"]
+            platforms = data[result2]["platforms"]
+            required_age = data[result2]["required_age"]
+            categories = data[result2]["categories"]
+            genres = data[result2]["genres"]
+            steamspy_tags = data[result2]['steamspy_tags']
+            achievements = data[result2]['achievements']
+            postive_ratings = data[result2]['positive_ratings']
+            negative_ratings = data[result2]['negative_ratings']
+            average_playtime = data[result2]['average_playtime']
+            median_playtime = data[result2]['median_playtime']
+            owners = data[result2]['owners']
+            price = data[result2]['price']
+            textbox_data2 = f"App ID: {appid}\n\nName: {name}\n\nDeveloper: {developer}\n\n" \
+                           f"Release date: {release_date}\n\nPublisher: {publisher}\n\nPlatforms: {platforms}\n\n" \
+                           f"Price: $ {price}\n\nRequired age: {required_age}\n\nCategories: {categories}\n\n" \
+                           f"Genres: {genres}\n\nSteamspy_tags: {steamspy_tags}\n\nAchievements: {achievements}\n\n" \
+                           f"Positive ratings: {postive_ratings}\n\nNegative_ratings: {negative_ratings}\n\n" \
+                           f"Average playtime: {average_playtime}hours\n\nMedian playtime: {median_playtime} hours\n\n" \
+                           f"Owners: {owners}\n\nAvailable in English: {english}"
+            textbox_1_home.insert(0.0, textbox_data2)
 
 
 def clicked_fiend_list():
@@ -305,6 +358,7 @@ def clicked_fiend_list():
 
 
 def clicked_game_data():
+    global average, range_lst
     destroy()
     window.title("Friend's game ownership data")
     frame1 = CTkFrame(window, width=430, height=610, fg_color="#1D1E1E")
@@ -336,6 +390,11 @@ def clicked_game_data():
     label_seven = CTkLabel(frame1, text="", image=img1)
     label_seven.place(x=20, y=400)
 
+    if average == 0:
+        destroy()
+        error_label = CTkLabel(window, text="Error, API down!", font=("italic", 30, "bold"))
+        error_label.place(x=350, y=280)
+
 
 def cycle_change():
     global cycle, mode_switch_count, button_c, button_hc
@@ -360,7 +419,8 @@ frame_2.place(x=10, y=10)
 frame_3 = CTkFrame(window, width=670, height=505, corner_radius=10)
 frame_3.place(x=220, y=125)
 
-textbox_1 = CTkTextbox(frame_3, width=600, height=450, corner_radius=10, fg_color="#1D1E1E")
+textbox_1 = CTkTextbox(frame_3, width=600, height=450, corner_radius=10, fg_color="#1D1E1E", font=("italic", 15),
+                       text_color="white")
 textbox_1.place(x=35, y=27.5)
 
 steam_logo_img = customtkinter.CTkImage(dark_image=Image.open("SteamLogo.png"), size=(64, 64))
@@ -400,10 +460,63 @@ switch = CTkSwitch(frame_2, text="", switch_width=40, switch_height=15, fg_color
                    progress_color="#242424", command=cycle_change)
 switch.place(x=830, y=65)
 
-button_6 = CTkButton(frame_2, text="search")
-button_6.place(x=700, y=20)
+j = open("steam.json")  # open json
+data = json.load(j)  # load the data
+data.sort(key=operator.itemgetter('name'))  # sort the games by name
 
-button_7 = CTkButton(frame_2, text="Review")
-button_7.place(x=700, y=2)
+
+def binary_search_algorithm(data, min, max, game):
+    if max >= min:
+        mid = (max + min) // 2
+        if data[mid]["name"] == game:
+            return mid
+        elif data[mid]["name"] > game:
+            return binary_search_algorithm(data, min, mid - 1, game)
+        else:
+            return binary_search_algorithm(data, mid + 1, max, game)
+    else:
+        return -1
+
+
+def call():
+    textbox_1.delete(0.0, END)
+    game = entry_1.get()
+    result = binary_search_algorithm(data, 0, len(data) - 1, game)
+
+    if result != -1:
+        appid = data[result]["appid"]
+        name = data[result]["name"]
+        release_date = data[result]["release_date"]
+        english = data[result]["english"]
+        if english == 0:
+            english = "No"
+        else:
+            english = "Yes"
+        developer = data[result]["developer"]
+        publisher = data[result]["publisher"]
+        platforms = data[result]["platforms"]
+        required_age = data[result]["required_age"]
+        categories = data[result]["categories"]
+        genres = data[result]["genres"]
+        steamspy_tags = data[result]['steamspy_tags']
+        achievements = data[result]['achievements']
+        postive_ratings = data[result]['positive_ratings']
+        negative_ratings = data[result]['negative_ratings']
+        average_playtime = data[result]['average_playtime']
+        median_playtime = data[result]['median_playtime']
+        owners = data[result]['owners']
+        price = data[result]['price']
+        textbox_data = f"App ID: {appid}\n\nName: {name}\n\nDeveloper: {developer}\n\n" \
+                       f"Release date: {release_date}\n\nPublisher: {publisher}\n\nPlatforms: {platforms}\n\n" \
+                       f"Price: $ {price}\n\nRequired age: {required_age}\n\nCategories: {categories}\n\n" \
+                       f"Genres: {genres}\n\nSteamspy_tags: {steamspy_tags}\n\nAchievements: {achievements}\n\n" \
+                       f"Positive ratings: {postive_ratings}\n\nNegative_ratings: {negative_ratings}\n\n" \
+                       f"Average playtime: {average_playtime}hours\n\nMedian playtime: {median_playtime} hours\n\n" \
+                       f"Owners: {owners}\n\nAvailable in English: {english}"
+        textbox_1.insert(0.0, textbox_data)
+
+
+button_6 = CTkButton(frame_2, text="search", fg_color=button_c, hover_color=button_hc, command=lambda: call())
+button_6.place(x=700, y=20)
 
 window.mainloop()
