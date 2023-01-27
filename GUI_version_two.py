@@ -1,6 +1,7 @@
 from customtkinter import *
 import customtkinter
 from tkinter import *
+from tkinter import messagebox
 from PIL import Image
 import datetime
 import requests
@@ -22,8 +23,9 @@ window.iconphoto(False, steam_icon)
 
 # __________________________ API call __________________________ #
 steamApiKey = "BBD242CD0468A435B14FB923B302231D"
-steamID = "76561198351674547"
+steamID = input("Put in your Steam ID: ")
 
+# "76561198351674547"
 slink3 = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="
 slink4 = "&steamid=" + steamID + "&include_appinfo=1&format=json"
 slink5 = slink3 + steamApiKey + slink4
@@ -78,9 +80,9 @@ for j in range(0, length_friend):
     steam = r.json()
     online = steam["response"]["players"][0]["personastate"]
     if online == 0:
-        online_list += "Offline,"
+        online_list += "Offline     ❌,"
     elif online == 1:
-        online_list += "Online          ✔,"
+        online_list += "Online     ✔,"
     elif online == 2:
         online_list += "Busy,"
     elif online == 3:
@@ -95,16 +97,17 @@ for j in range(0, length_friend):
     names += name + ","
     last_seen = steam["response"]["players"][0]["lastlogoff"]
     dt_utc_naive = datetime.datetime.utcfromtimestamp(last_seen)
-    utc = dt_utc_naive.replace(tzinfo=pytz.utc)
-    tz = pytz.timezone('Europe/Berlin')
-    cet = utc.astimezone(tz)
-    last_time = cet.strftime(" %H:%M  %d-%m-%Y")
+    last_time = dt_utc_naive.strftime(" %H:%M:%S %d-%m-%Y")
     last_seen_list.append(last_time)
 
 online_list = online_list.split(",")
 online_list.pop(-1)
 names = names.split(",")
 names.pop(-1)
+friends_online = []
+for k in range(0, length_friend):
+    if online_list[k] == "Online     ✔":
+        friends_online.append(names[k])
 print("Done!\n")
 
 print("Loading your friends play page.")
@@ -126,7 +129,8 @@ for j in range(0, length_friend):
     max_playtime = max(playlist_player)
     max_index = playlist_player.index(max_playtime)
     most_played = steam4['response']['games'][max_index]['name']
-    playlist.append(most_played)
+    if most_played not in playlist:
+        playlist.append(most_played)
 print("Done!\n")
 
 print("All done!")
@@ -254,8 +258,8 @@ def home_screen():
                               text_color="white", command=clicked_fiend_list)
     button_5_home.place(x=20, y=210)
 
-    button_6_home = CTkButton(frame_2_home, text="search", fg_color=button_c, hover_color=button_hc,
-                              command=lambda: call2())
+    button_6_home = CTkButton(frame_2_home, text="search", fg_color=button_c, hover_color=button_hc, width=90,
+                              height=55, font=("italic", 15, "bold"), command=lambda: call2())
     button_6_home.place(x=700, y=20)
     # Labels
     label_2_home = CTkLabel(frame_1_home, text="Statistics", font=("italic", 15, "bold"))
@@ -324,41 +328,28 @@ def home_screen():
                            f"Average playtime: {average_playtime}hours\n\nMedian playtime: {median_playtime} hours\n\n" \
                            f"Owners: {owners}\n\nAvailable in English: {english}"
             textbox_1_home.insert(0.0, textbox_data2)
+        else:
+            messagebox.showinfo("Error",
+                                "Make sure the game has been spelled correctly.\nNote: This database has no game past 2019\nAnd the game has to be on Steam.")
 
 
 def clicked_fiend_list():
     destroy()
     window.title("Friends list")
 
-    textbox1 = CTkTextbox(window, width=250, height=500, font=("italic", 20), fg_color="#1D1E1E", text_color="white")
+    textbox1 = CTkTextbox(window, width=825, height=500, font=("italic", 20), fg_color="#1D1E1E", text_color="white")
     textbox1.place(x=37.5, y=100)
     name_str = ""
     counter1 = 1
-    for name in names:
-        name_str += f"{counter1}: {name}\n\n"
+    for name, status, log in zip(names, online_list, last_seen_list):
+        name_str += f"{counter1}: {name} "
+        name_str += "\t\t\t   "
+        name_str += f"{status}"
+        name_str += "\t\t\t     "
+        name_str += f"{log}"
+        name_str += "\n\n"
         counter1 += 1
     textbox1.insert(0.0, name_str)
-
-    textbox2 = CTkTextbox(window, width=250, height=500, font=("italic", 20), fg_color="#1D1E1E", text_color="white")
-    textbox2.place(x=325, y=100)
-
-    online_str = ""
-    counter2 = 1
-
-    for status in online_list:
-        online_str += f"{counter2}: {status}\n\n"
-        counter2 += 1
-    textbox2.insert(0.0, online_str)
-
-    textbox3 = CTkTextbox(window, width=250, height=500, font=("italic", 20), fg_color="#1D1E1E", text_color="white")
-    textbox3.place(x=612.5, y=100)
-
-    log_off = ""
-    counter3 = 1
-    for log in last_seen_list:
-        log_off += f"{counter3}: {log}\n\n"
-        counter3 += 1
-    textbox3.insert(0.0, log_off)
 
     label1 = CTkLabel(window, text="Friends list.", font=("italic", 45, "bold"))
     label1.place(x=37.5, y=20)
@@ -417,7 +408,13 @@ def clicked_game_data():
     if average == 0:
         destroy()
         error_label = CTkLabel(window, text="Error, API down!", font=("italic", 30, "bold"))
-        error_label.place(x=350, y=280)
+        error_label.place(x=335, y=280)
+
+        messagebox.showinfo("Error", "One of the Steam API' has gone down.\nPlease come back later.")
+
+        button_1_error = CTkButton(window, width=200, height=70, text="Home", font=("italic", 17, "bold"),
+                                     fg_color="#173b6c", hover_color="#1D1E1E", command=home_screen)
+        button_1_error.place(x=350, y=330)
 
 
 def clicked_yfp():
@@ -434,7 +431,7 @@ def clicked_yfp():
     label_1_friends.place(x=60, y=500)
 
     label_2_friends = CTkLabel(window, text="Games your friends play", font=("Italic", 25, "bold"))
-    label_2_friends.place(x=10, y=150)
+    label_2_friends.place(x=15, y=150)
 
     img_2_friends = customtkinter.CTkImage(dark_image=Image.open("steam_baner-modified.png"), size=(250, 100))
     label_3_friends = CTkLabel(frame_1_friends, text="", image=img_2_friends)
@@ -446,6 +443,9 @@ def clicked_yfp():
     img_3_friends = customtkinter.CTkImage(dark_image=Image.open("valve (1).png"), size=(250, 125))
     label_4_friends = CTkLabel(frame_1_friends, text="", image=img_3_friends)
     label_4_friends.place(x=350, y=0)
+
+    label_5_friends = CTkLabel(window, text="Most played games", font=("Italic", 25, "bold"))
+    label_5_friends.place(x=345, y=152)
 
     textbox_1_friends = CTkTextbox(window, width=320, height=430, corner_radius=10, text_color="white",
                                    fg_color="#1D1E1E", font=("italic", 18))
@@ -463,6 +463,11 @@ def clicked_yfp():
     textbox_3_friends = CTkTextbox(frame_2_friends, width=200, height=300, corner_radius=10, text_color="white",
                                    fg_color="#1D1E1E", font=("italic", 20))
     textbox_3_friends.place(x=10, y=190)
+
+    textbox_3_friends_str = ""
+    for n in friends_online:
+        textbox_3_friends_str += f"{n}\n\n"
+    textbox_3_friends.insert(0.0, textbox_3_friends_str)
 
     button_1_friends = CTkButton(frame_2_friends, width=200, height=70, text="Home", font=("italic", 17, "bold"),
                                  fg_color="#173b6c", hover_color="#1D1E1E", command=home_screen)
@@ -482,6 +487,7 @@ def cycle_change():
 # Button colors
 button_c = "#173b6c"
 button_hc = "#156598"
+
 
 frame_1 = CTkFrame(window, width=200, height=505, corner_radius=10)
 frame_1.place(x=10, y=125)
@@ -587,9 +593,11 @@ def call():
                        f"Average playtime: {average_playtime}hours\n\nMedian playtime: {median_playtime} hours\n\n" \
                        f"Owners: {owners}\n\nAvailable in English: {english}"
         textbox_1.insert(0.0, textbox_data)
+    else:
+        messagebox.showinfo("Error", "Make sure the game has been spelled correctly.\nNote: This database has no game past 2019\nAnd the game has to be on Steam.")
 
-
-button_6 = CTkButton(frame_2, text="search", fg_color=button_c, hover_color=button_hc, command=lambda: call())
-button_6.place(x=700, y=20)
+button_6 = CTkButton(frame_2, text="search", fg_color=button_c, hover_color=button_hc, width=90, height=55,
+                     font=("italic", 15, "bold"), command=lambda: call())
+button_6.place(x=700, y=22)
 
 window.mainloop()
