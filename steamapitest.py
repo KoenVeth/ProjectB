@@ -19,7 +19,7 @@ len_friend = steam2["friendslist"]["friends"]
 length_friend = len(len_friend)
 for i in range(0, length_friend):
     friend = steam2["friendslist"]["friends"][i]["steamid"]
-    # print(friend)
+    #print(friend)
     friends_list.append(friend)
 # Steam API link formatting for "GetOwnedGames"
 game_count_list = []
