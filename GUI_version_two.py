@@ -76,7 +76,7 @@ for j in range(0, length_friend):
     # Sent API Get request and save respond to a variable
     r = requests.get(slink)
 
-    # convert to JSON and save to another variable
+    # conv ert to JSON and save to another variable
     steam = r.json()
     online = steam["response"]["players"][0]["personastate"]
     if online == 0:
