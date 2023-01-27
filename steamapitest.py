@@ -89,12 +89,13 @@ friends_online=[]
 for k in range(0,length_friend):
     if online_list[k]=="Online":
         friends_online.append(names[k])
-print(friends_online)
+#print(friends_online)
 #print(lastseenlist)
 #print(online_list)
 #print(names)
 #most played games
 playlist=[]
+occurrence=[]
 for j in range(0, length_friend):
 
     slink9 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
@@ -114,8 +115,24 @@ for j in range(0, length_friend):
     mostplayed=steam4['response']['games'][max_index]['name']
     if mostplayed not in playlist:
         playlist.append(mostplayed)
-
+        occurrence.append(mostplayed)
+    else:
+        occurrence.append(mostplayed)
+countdict={}
     #print(steam4)
+for u in range(0,len(occurrence)-1):
+    #print(occurrence.count(occurrence[u]))
+    countdict[occurrence[u]]=occurrence.count(occurrence[u])
+#print(countdict)
+top3={}
+for k in sorted(countdict, key=countdict.get,reverse= True):
+    count_one = countdict[k]
+    if len (top3)<3:
+        top3[k]=count_one
+print(top3)
+top3_games=list(top3.keys())
+print(top3_games)
 
-print(playlist)
-#top3 games
+
+
+
