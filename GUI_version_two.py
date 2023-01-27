@@ -482,7 +482,6 @@ def clicked_yfp():
         textbox_2_friends_str += f"{n}\n\n\n"
     textbox_2_friends.insert(0.0, textbox_2_friends_str)
 
-
     textbox_3_friends = CTkTextbox(frame_2_friends, width=200, height=300, corner_radius=10, text_color="white",
                                    fg_color="#1D1E1E", font=("italic", 20))
     textbox_3_friends.place(x=10, y=190)
