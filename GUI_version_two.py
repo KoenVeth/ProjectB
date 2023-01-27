@@ -23,7 +23,7 @@ window.iconphoto(False, steam_icon)
 
 # __________________________ API call __________________________ #
 steamApiKey = "BBD242CD0468A435B14FB923B302231D"
-steamID = input("Put in your Steam ID: ")
+steamID = "76561198351674547"
 
 # "76561198351674547"
 slink3 = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="
