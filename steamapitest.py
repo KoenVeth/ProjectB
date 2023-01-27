@@ -5,7 +5,7 @@ import json
 
 # steamApiKey="AAFB2DC04D5E96CD98660900ADC52FAC"
 steamApiKey = "BBD242CD0468A435B14FB923B302231D"
-# steamID="76561198978002270"#p
+#steamID="76561198978002270"#p
 steamID = "76561198351674547"  # i
 
 slink3 = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="
@@ -129,6 +129,6 @@ for k in sorted(countdict, key=countdict.get, reverse=True):
     count_one = countdict[k]
     if len(top3) < 5:
         top3[k] = count_one
-print(top3)
+#print(top3)
 top3_games = list(top3.keys())
 print(top3_games)
