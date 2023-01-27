@@ -2,7 +2,6 @@ import requests
 import random
 import datetime
 import json
-import operator
 
 #steamApiKey="AAFB2DC04D5E96CD98660900ADC52FAC"
 steamApiKey = "BBD242CD0468A435B14FB923B302231D"
@@ -90,7 +89,7 @@ friends_online=[]
 for k in range(0,length_friend):
     if online_list[k]=="Online":
         friends_online.append(names[k])
-#print(friends_online)
+print(friends_online)
 #print(lastseenlist)
 #print(online_list)
 #print(names)
@@ -113,22 +112,10 @@ for j in range(0, length_friend):
     max_playtime=max(playlist_player)
     max_index=playlist_player.index(max_playtime)
     mostplayed=steam4['response']['games'][max_index]['name']
-    playlist.append(mostplayed)
+    if mostplayed not in playlist:
+        playlist.append(mostplayed)
 
     #print(steam4)
 
 print(playlist)
 #top3 games
-most_occuring= max(playlist, key=playlist.count)
-top3=[]
-top3.append(most_occuring)
-playlist.remove(most_occuring)
-most_occuring2= max(playlist, key=playlist.count)
-top3=[]
-top3.append(most_occuring2)
-playlist.remove(most_occuring2)
-most_occuring3= max(playlist, key=playlist.count)
-top3=[]
-top3.append(most_occuring3)
-playlist.remove(most_occuring3)
-print(top3)
