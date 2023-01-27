@@ -80,7 +80,7 @@ for j in range(0, length_friend):
     if online == 0:
         online_list += "Offline,"
     elif online == 1:
-        online_list += "Online,"
+        online_list += "Online          ✔,"
     elif online == 2:
         online_list += "Busy,"
     elif online == 3:
@@ -105,6 +105,28 @@ online_list = online_list.split(",")
 online_list.pop(-1)
 names = names.split(",")
 names.pop(-1)
+print("Done!\n")
+
+print("Loading your friends play page.")
+playlist = []
+for j in range(0, length_friend):
+
+    slink9 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
+    slink10 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json"
+    slink11 = slink9 + steamApiKey + slink10
+    r = requests.get(slink11)
+    playlist_player = []
+    # convert to JSON and save to another variable
+    steam4 = r.json()
+    if steam4 == {'response': {}}:
+        continue
+    for s in range(0, len(steam4['response']['games'])-1):
+       playtime = steam4['response']['games'][s]['playtime_forever']
+       playlist_player.append(playtime)
+    max_playtime = max(playlist_player)
+    max_index = playlist_player.index(max_playtime)
+    most_played = steam4['response']['games'][max_index]['name']
+    playlist.append(most_played)
 print("Done!\n")
 
 print("All done!")
@@ -322,6 +344,7 @@ def clicked_fiend_list():
 
     online_str = ""
     counter2 = 1
+
     for status in online_list:
         online_str += f"{counter2}: {status}\n\n"
         counter2 += 1
@@ -410,12 +433,12 @@ def clicked_yfp():
     label_1_friends = CTkLabel(frame_2_friends, text="", image=img_1_friends)
     label_1_friends.place(x=60, y=500)
 
-    label_2_friends = CTkLabel(window, text="Games your friends play", font=("Italic", 30, "bold"))
+    label_2_friends = CTkLabel(window, text="Games your friends play", font=("Italic", 25, "bold"))
     label_2_friends.place(x=10, y=150)
 
     img_2_friends = customtkinter.CTkImage(dark_image=Image.open("steam_baner-modified.png"), size=(250, 100))
     label_3_friends = CTkLabel(frame_1_friends, text="", image=img_2_friends)
-    label_3_friends.place(x=200, y=10)
+    label_3_friends.place(x=75, y=10)
 
     label_3_friends = CTkLabel(frame_2_friends, text="Online right now!", font=("italic", 20, "bold"))
     label_3_friends.place(x=15, y=160)
@@ -424,11 +447,22 @@ def clicked_yfp():
     label_4_friends = CTkLabel(frame_1_friends, text="", image=img_3_friends)
     label_4_friends.place(x=350, y=0)
 
-    textbox_1_friends = CTkTextbox(window, width=650, height=430, corner_radius=10, fg_color="#1D1E1E")
+    textbox_1_friends = CTkTextbox(window, width=320, height=430, corner_radius=10, text_color="white",
+                                   fg_color="#1D1E1E", font=("italic", 18))
     textbox_1_friends.place(x=10, y=200)
 
-    textbox_2_friends = CTkTextbox(frame_2_friends, width=200, height=300, corner_radius=10, fg_color="#1D1E1E")
-    textbox_2_friends.place(x=10, y=190)
+    textbox_1_friends_str = ""
+    for g in playlist:
+        textbox_1_friends_str += f"{g}\n\n"
+    textbox_1_friends.insert(0.0, textbox_1_friends_str)
+
+    textbox_2_friends = CTkTextbox(window, width=320, height=430, corner_radius=10, text_color="white",
+                                   fg_color="#1D1E1E", font=("italic", 20))
+    textbox_2_friends.place(x=340, y=200)
+
+    textbox_3_friends = CTkTextbox(frame_2_friends, width=200, height=300, corner_radius=10, text_color="white",
+                                   fg_color="#1D1E1E", font=("italic", 20))
+    textbox_3_friends.place(x=10, y=190)
 
     button_1_friends = CTkButton(frame_2_friends, width=200, height=70, text="Home", font=("italic", 17, "bold"),
                                  fg_color="#173b6c", hover_color="#1D1E1E", command=home_screen)
