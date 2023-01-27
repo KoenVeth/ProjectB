@@ -86,7 +86,7 @@ for j in range(0, length_friend):
     elif online == 2:
         online_list += "Busy,"
     elif online == 3:
-        online_list += "Away,"
+        online_list += "Away      👋,"
     elif online == 4:
         online_list += "Snooze,"
     elif online == 5:
@@ -112,6 +112,7 @@ print("Done!\n")
 
 print("Loading your friends play page.")
 playlist = []
+occurrence = []
 for j in range(0, length_friend):
 
     slink9 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
@@ -131,6 +132,22 @@ for j in range(0, length_friend):
     most_played = steam4['response']['games'][max_index]['name']
     if most_played not in playlist:
         playlist.append(most_played)
+        occurrence.append(most_played)
+    else:
+        occurrence.append(most_played)
+
+countdict = {}
+for u in range(0, len(occurrence) - 1):
+    # print(occurrence.count(occurrence[u]))
+    countdict[occurrence[u]] = occurrence.count(occurrence[u])
+# print(countdict)
+top3 = {}
+for k in sorted(countdict, key=countdict.get, reverse=True):
+    count_one = countdict[k]
+    if len(top3) < 5:
+        top3[k] = count_one
+#print(top3)
+top5_games = list(top3.keys())
 print("Done!\n")
 
 print("All done!")
@@ -457,8 +474,13 @@ def clicked_yfp():
     textbox_1_friends.insert(0.0, textbox_1_friends_str)
 
     textbox_2_friends = CTkTextbox(window, width=320, height=430, corner_radius=10, text_color="white",
-                                   fg_color="#1D1E1E", font=("italic", 20))
+                                   fg_color="#1D1E1E", font=("italic", 18))
     textbox_2_friends.place(x=340, y=200)
+
+    textbox_2_friends_str = ""
+    for n in top5_games:
+        textbox_2_friends_str += f"{n}\n\n\n"
+    textbox_2_friends.insert(0.0, textbox_2_friends_str)
 
     textbox_3_friends = CTkTextbox(frame_2_friends, width=200, height=300, corner_radius=10, text_color="white",
                                    fg_color="#1D1E1E", font=("italic", 20))

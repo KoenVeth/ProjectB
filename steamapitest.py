@@ -130,5 +130,5 @@ for k in sorted(countdict, key=countdict.get, reverse=True):
     if len(top3) < 5:
         top3[k] = count_one
 #print(top3)
-top3_games = list(top3.keys())
-print(top3_games)
+top5_games = list(top3.keys())
+print(top5_games)
