@@ -3,10 +3,10 @@ import random
 import datetime
 import json
 
-#steamApiKey="AAFB2DC04D5E96CD98660900ADC52FAC"
+# steamApiKey="AAFB2DC04D5E96CD98660900ADC52FAC"
 steamApiKey = "BBD242CD0468A435B14FB923B302231D"
 #steamID="76561198978002270"#p
-steamID = "76561198351674547"#i
+steamID = "76561198351674547"  # i
 
 slink3 = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="
 slink4 = "&steamid=" + steamID + "&include_appinfo=1&format=json"
@@ -23,7 +23,7 @@ for i in range(0, length_friend):
     friends_list.append(friend)
 # Steam API link formatting for "GetOwnedGames"
 game_count_list = []
-gameslist=""
+gameslist = ""
 for j in range(0, length_friend):
 
     slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
@@ -39,12 +39,12 @@ for j in range(0, length_friend):
     choice = random.choice(range(0, len(steam3["response"]["games"]) - 1))
     randomgame = steam3["response"]["games"][choice]["name"]
     if randomgame not in gameslist:
-        gameslist+=randomgame+";"
+        gameslist += randomgame + ";"
     games = steam3["response"]["game_count"]
     game_count_list.append(games)
-    #print(steam3)
-#print(game_count_list)
-#print(gameslist)
+    # print(steam3)
+# print(game_count_list)
+# print(gameslist)
 
 last_seen_list = []
 online_list = ""
@@ -85,37 +85,50 @@ online_list = online_list.split(",")
 online_list.pop(-1)
 names = names.split(",")
 names.pop(-1)
-friends_online=[]
-for k in range(0,length_friend):
-    if online_list[k]=="Online":
+friends_online = []
+for k in range(0, length_friend):
+    if online_list[k] == "Online":
         friends_online.append(names[k])
-print(friends_online)
-#print(lastseenlist)
-#print(online_list)
-#print(names)
-#most played games
-playlist=[]
+# print(friends_online)
+# print(lastseenlist)
+# print(online_list)
+# print(names)
+# most played games
+playlist = []
+occurrence = []
 for j in range(0, length_friend):
 
     slink9 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
     slink10 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json"
     slink11 = slink9 + steamApiKey + slink10
     r = requests.get(slink11)
-    playlist_player=[]
+    playlist_player = []
     # convert to JSON and save to another variable
     steam4 = r.json()
     if steam4 == {'response': {}}:
         continue
-    for s in range(0, len(steam4['response']['games'])-1):
-       playtime= steam4['response']['games'][s]['playtime_forever']
-       playlist_player.append(playtime)
-    max_playtime=max(playlist_player)
-    max_index=playlist_player.index(max_playtime)
-    mostplayed=steam4['response']['games'][max_index]['name']
+    for s in range(0, len(steam4['response']['games']) - 1):
+        playtime = steam4['response']['games'][s]['playtime_forever']
+        playlist_player.append(playtime)
+    max_playtime = max(playlist_player)
+    max_index = playlist_player.index(max_playtime)
+    mostplayed = steam4['response']['games'][max_index]['name']
     if mostplayed not in playlist:
         playlist.append(mostplayed)
-
-    #print(steam4)
-
-print(playlist)
-#top3 games
+        occurrence.append(mostplayed)
+    else:
+        occurrence.append(mostplayed)
+countdict = {}
+# print(steam4)
+for u in range(0, len(occurrence) - 1):
+    # print(occurrence.count(occurrence[u]))
+    countdict[occurrence[u]] = occurrence.count(occurrence[u])
+# print(countdict)
+top3 = {}
+for k in sorted(countdict, key=countdict.get, reverse=True):
+    count_one = countdict[k]
+    if len(top3) < 5:
+        top3[k] = count_one
+#print(top3)
+top3_games = list(top3.keys())
+print(top3_games)
