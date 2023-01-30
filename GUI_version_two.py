@@ -330,7 +330,7 @@ def home_screen():
 
         # If the game is found, the data will be divided using the found game's index.
         # If -1 has been returned from the binary search algorithm, an error message will be displayed.
-        # The data will be inserted into textbox_data2
+        # The data will be inserted into textbox_data2.
 
         if result2 != -1:
             appid = data[result2]["appid"]
