@@ -8,6 +8,10 @@ import requests
 import json
 import operator
 import random
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from scipy.stats import norm
+import numpy as np
 
 print("Loading.....\n")
 
@@ -139,7 +143,7 @@ for j in range(0, length_friend):
     for s in range(0, len(steam4['response']['games']) - 1):
         playtime = steam4['response']['games'][s]['playtime_forever']
         playtime_player.append(playtime)
-    total_playtime = sum(playtime_player)
+    total_playtime = sum(playtime_player) // 60
     total_playtime_list.append(total_playtime)
     max_playtime = max(playtime_player)
     max_index = playtime_player.index(max_playtime)
@@ -165,8 +169,10 @@ mode_switch_count = 1
 average = round(sum(game_count_list) / len(game_count_list), 2)
 range_lst = max(game_count_list) - min(game_count_list)
 
+average2 = round(sum(total_playtime_list) / len(total_playtime_list), 2)
+range_lst2 = max(total_playtime_list) - min(total_playtime_list)
 
-def freq(lst=game_count_list):
+def freq(lst):
     # First I make an empty dictionary
     # Then I set the keys to the integers in the list and set the default value to 0.
     # Right after I add 1 to the right(juiste) value using a for loop.
@@ -178,7 +184,7 @@ def freq(lst=game_count_list):
     return freq_dict
 
 
-def modes(lst=game_count_list):
+def modes(lst):
     # I start with an empty dictionary, And use my freq function.
     # Set the keys equal to the numbers in the lst and the value to 0.
     # Then everytime a number that occurs multiple times in the lst gets looped through, 1 will be added to the value
@@ -196,10 +202,12 @@ def modes(lst=game_count_list):
     for num, freq in num_freq.items():
         if freq == max_freq:
             modi.append(num)
+    if len(lst) == len(modi):
+        return "No modi"
     return sorted(modi)
 
 
-def median(lst=game_count_list):
+def median(lst):
     # First I sort the given list.
     sorted_list = sorted(lst)
     # If the list is even, I then take the two middle numbers and divide them by two to get the median.
@@ -214,7 +222,7 @@ def median(lst=game_count_list):
         return median_answer
 
 
-def var(lst=game_count_list):
+def var(lst):
     # first I get the average of the given list.
     average_number = sum(lst) / len(lst)
     # I make an empty list, so I can append the deviance from the list average for each number.
@@ -234,7 +242,7 @@ def var(lst=game_count_list):
     return round(average_squared_deviance, 2)
 
 
-def std(lst=game_count_list):
+def std(lst):
     # To get the standerd deviance (standaardafwijking) I take the variantie and take the root of that number.
     standerd_deviance = var(lst) ** 0.5
     return round(standerd_deviance, 2)
@@ -409,44 +417,164 @@ def clicked_fiend_list():
                         hover_color="#1D1E1E", font=("italic", 17, "bold"), command=home_screen)
     button1.place(x=612.5, y=10)
 
-    button2 = CTkButton(window, text="Friend's game ownership data", fg_color="#173b6c", hover_color="#1D1E1E",
-                        height=50, width=250, font=("italic", 14, "bold"), command=clicked_game_data)
+    button2 = CTkButton(window, text="Friend's gaming data", fg_color="#173b6c", hover_color="#1D1E1E",
+                        height=50, width=250, font=("italic", 14, "bold"), command=clicked_gaming_data)
     button2.place(x=325, y=10)
 
 
-def clicked_game_data():
+def clicked_gaming_data():
     global average, range_lst
     destroy()
-    window.title("Friend's game ownership data")
-    frame1 = CTkFrame(window, width=430, height=610, fg_color="#1D1E1E")
-    frame1.place(x=450, y=20)
+    window.title("Friend's play time data")
+    frame1 = CTkFrame(window, width=350, height=610, fg_color="#1D1E1E")
+    frame1.place(x=530, y=20)
+
+    fig = plt.Figure(figsize=(5, 5), dpi=100)
+    ax = fig.add_subplot(111)
+
+    x = len(total_playtime_list)
+
+    x_list = []
+    y_list = []
+    for n in range(0, x):
+        x_list.append(n)
+        y = total_playtime_list[n]
+        y_list.append(y)
+
+    ax.bar(x_list, y_list)
+
+    canvas = FigureCanvasTkAgg(fig, master=window)
+    canvas.draw()
+
+    canvas.get_tk_widget().place(x=25, y=75)
 
     # The game data tab shows the user statistics about the game count of their friends list.
     # Such as: How many games do my friends have on average. Or how many friends have the same amount of games.
     # The code uses functions named: average, range_lst, median, var, modes, std to find out the statistics of the
     # friends game data. Then the code adds the return value to an f string.
 
-    label_one = CTkLabel(frame1, text=f"Average: {average}", font=("italic", 25, "bold"), text_color="white")
+    label_one = CTkLabel(frame1, text=f"Average: {average2}", font=("italic", 22, "bold"), text_color="white")
     label_one.place(x=20, y=20)
 
-    label_two = CTkLabel(frame1, text=f"Range: {range_lst}", font=("italic", 25, "bold"), text_color="white")
+    label_two = CTkLabel(frame1, text=f"Range: {range_lst2}", font=("italic", 22, "bold"), text_color="white")
     label_two.place(x=20, y=80)
 
-    label_three = CTkLabel(frame1, text=f"Median: {median()}", font=("italic", 25, "bold"), text_color="white")
+    label_three = CTkLabel(frame1, text=f"Median: {median(total_playtime_list)}", font=("italic", 22, "bold"), text_color="white")
     label_three.place(x=20, y=140)
 
-    label_four = CTkLabel(frame1, text=f"Variance: {var()}", font=("italic", 25, "bold"), text_color="white")
+    label_four = CTkLabel(frame1, text=f"Variance: {var(total_playtime_list)}", font=("italic", 22, "bold"), text_color="white")
     label_four.place(x=20, y=200)
 
-    label_five = CTkLabel(frame1, text=f"Modes: {modes()}", font=("italic", 25, "bold"), text_color="white")
+    label_five = CTkLabel(frame1, text=f"Modes: {modes(total_playtime_list)}", font=("italic", 22, "bold"), text_color="white")
     label_five.place(x=20, y=260)
 
-    label_six = CTkLabel(frame1, text=f"Standard deviance: {std()}", font=("italic", 25, "bold"), text_color="white")
+    label_six = CTkLabel(frame1, text=f"Standard deviance: {std(total_playtime_list)}", font=("italic", 22, "bold"), text_color="white")
     label_six.place(x=20, y=320)
+
+    label_eight = CTkLabel(window, text="Friend's play time data", font=("italic", 30, "bold"))
+    label_eight.place(x=25, y=10)
 
     button_one = CTkButton(frame1, text="Back", width=80, height=50, fg_color="#173b6c",
                            hover_color="#1D1E1E", font=("italic", 17, "bold"), command=clicked_fiend_list)
-    button_one.place(x=340, y=550)
+    button_one.place(x=260, y=550)
+
+    button_two = CTkButton(window, text="Next", width=80, height=50, fg_color="#173b6c",
+                           hover_color="#1D1E1E", font=("italic", 17, "bold"), command=clicked_gaming_data2)
+    button_two.place(x=400, y=10)
+
+    img1 = customtkinter.CTkImage(dark_image=Image.open("data-analysis.png"), size=(150, 150))
+    label_seven = CTkLabel(frame1, text="", image=img1)
+    label_seven.place(x=20, y=400)
+
+    # Here the code checks to see if the average is 0. If that's the case, then that means that the API is down.
+    # If the API is down, then a label will be made saying "API down".
+    # The API has gone down multiple times during development of this project.
+
+    if average == 0:
+        destroy()
+        error_label = CTkLabel(window, text="Error, API down!", font=("italic", 30, "bold"))
+        error_label.place(x=335, y=280)
+
+        messagebox.showinfo("Error", "One of the Steam API' has gone down.\nPlease come back later.")
+
+        button_1_error = CTkButton(window, width=200, height=70, text="Home", font=("italic", 17, "bold"),
+                                     fg_color="#173b6c", hover_color="#1D1E1E", command=home_screen)
+        button_1_error.place(x=350, y=330)
+
+
+def clicked_gaming_data2():
+    destroy()
+    window.title("Friend's game ownership data")
+
+
+
+    game_count_list.sort()
+    mean = sum(game_count_list) // len(game_count_list)
+
+    new_list = []
+    # haal elk punt van het gemiddelde af
+    for i in range(0, len(game_count_list)):
+        a = game_count_list[i] - mean
+        # kwadrateer dat
+        a = a ** 2
+        new_list.append(a)
+        # sommeer al die kwadraten
+    sum_a = sum(new_list)
+    # deel dat door het aantal orginele getallen
+    res = sum_a / len(game_count_list)
+    sd = res ** 0.5
+
+    x_axis = np.arange(game_count_list[0], game_count_list[-1], 1)
+    plt.plot(x_axis, norm.pdf(x_axis, mean, sd))
+    plt.xlabel("aantal games")
+    plt.ylabel("kansverdeling")
+
+    fig = plt.Figure(figsize=(5, 5), dpi=100)
+    ax = fig.add_subplot(111)
+
+    ax.plot(x_axis, norm.pdf(x_axis, mean, sd))
+    canvas = FigureCanvasTkAgg(fig, master=window)
+    canvas.draw()
+
+    canvas.get_tk_widget().place(x=25, y=75)
+
+
+    # The game data tab shows the user statistics about the game count of their friends list.
+    # Such as: How many games do my friends have on average. Or how many friends have the same amount of games.
+    # The code uses functions named: average, range_lst, median, var, modes, std to find out the statistics of the
+    # friends game data. Then the code adds the return value to an f string.
+
+    frame1 = CTkFrame(window, width=350, height=610, fg_color="#1D1E1E")
+    frame1.place(x=530, y=20)
+
+    label_one = CTkLabel(frame1, text=f"Average: {average}", font=("italic", 22, "bold"), text_color="white")
+    label_one.place(x=20, y=20)
+
+    label_two = CTkLabel(frame1, text=f"Range: {range_lst}", font=("italic", 22, "bold"), text_color="white")
+    label_two.place(x=20, y=80)
+
+    label_three = CTkLabel(frame1, text=f"Median: {median(game_count_list)}", font=("italic", 22, "bold"),
+                           text_color="white")
+    label_three.place(x=20, y=140)
+
+    label_four = CTkLabel(frame1, text=f"Variance: {var(game_count_list)}", font=("italic", 22, "bold"),
+                          text_color="white")
+    label_four.place(x=20, y=200)
+
+    label_five = CTkLabel(frame1, text=f"Modes: {modes(game_count_list)}", font=("italic", 22, "bold"),
+                          text_color="white")
+    label_five.place(x=20, y=260)
+
+    label_six = CTkLabel(frame1, text=f"Standard deviance: {std(game_count_list)}", font=("italic", 22, "bold"),
+                         text_color="white")
+    label_six.place(x=20, y=320)
+
+    label_eight2 = CTkLabel(window, text="Friend's game count data", font=("italic", 30, "bold"))
+    label_eight2.place(x=25, y=10)
+
+    button_one = CTkButton(frame1, text="Previous", width=80, height=50, fg_color="#173b6c",
+                           hover_color="#1D1E1E", font=("italic", 17, "bold"), command=clicked_gaming_data)
+    button_one.place(x=260, y=550)
 
     img1 = customtkinter.CTkImage(dark_image=Image.open("data-analysis.png"), size=(150, 150))
     label_seven = CTkLabel(frame1, text="", image=img1)

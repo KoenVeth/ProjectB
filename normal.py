@@ -19,7 +19,7 @@ for i in range(0, lenghtfriend):
     # print(friend)
     friendslist.append(friend)
 # Steam API link formatting for "GetOwnedGames"
-gamecountlist = []
+game_count_list = []
 for j in range(0, lenghtfriend):
 
     slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
@@ -32,30 +32,30 @@ for j in range(0, lenghtfriend):
     steam3 = r.json()
     # weeks=steam3["response"]["games"]
     if steam3 == {'response': {}}:
-        gamecountlist.append(0)
+        game_count_list.append(0)
         continue
     games = steam3["response"]["game_count"]
-    gamecountlist.append(games)
+    game_count_list.append(games)
 
 
-gamecountlist.sort()
+game_count_list.sort()
 
-mean=sum(gamecountlist)//len(gamecountlist)
+mean= sum(game_count_list) // len(game_count_list)
 
 newlist = []
 numberlist=[]
 # haal elk punt van het gemiddelde af
-for i in range(0, len(gamecountlist)):
-    a = gamecountlist[i] - mean
+for i in range(0, len(game_count_list)):
+    a = game_count_list[i] - mean
     # kwadrateer dat
     a = a ** 2
     newlist.append(a)
     # sommeer al die kwadraten
 sum_a = sum(newlist)
     # deel dat door het aantal orginele getallen
-res = sum_a / len(gamecountlist)
+res = sum_a / len(game_count_list)
 sd=res**0.5
-x_axis = np.arange(gamecountlist[0], gamecountlist[-1], 1)
+x_axis = np.arange(game_count_list[0], game_count_list[-1], 1)
 plt.plot(x_axis, norm.pdf(x_axis, mean,sd))
 plt.xlabel("aantal games")
 plt.ylabel("kansverdeling")
