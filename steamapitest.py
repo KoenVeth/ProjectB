@@ -5,7 +5,7 @@ import datetime
 # get your api key
 # insert your SteamID
 # Get the link to the API
-# connect to the JSON-file and get it
+# connect to the JSON file and get it
 steamApiKey = "BBD242CD0468A435B14FB923B302231D"
 steamID = "76561198351674547"
 slink3 = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="
