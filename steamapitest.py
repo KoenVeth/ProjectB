@@ -27,7 +27,7 @@ gameslist = ""
 for j in range(0, length_friend):
 
     slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
-    slink7 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json"
+    slink7 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json&include_played_free_games"
     slink8 = slink6 + steamApiKey + slink7
     r = requests.get(slink8)
 
@@ -43,9 +43,9 @@ for j in range(0, length_friend):
     games = steam3["response"]["game_count"]
     game_count_list.append(games)
     # print(steam3)
-# print(game_count_list)
+print(game_count_list)
 gameslist=gameslist.split(";")
-print(gameslist)
+# print(gameslist)
 
 last_seen_list = []
 online_list = ""
@@ -100,7 +100,7 @@ occurrence = []
 for j in range(0, length_friend):
 
     slink9 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
-    slink10 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json"
+    slink10 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json&include_played_free_games"
     slink11 = slink9 + steamApiKey + slink10
     r = requests.get(slink11)
     playlist_player = []
