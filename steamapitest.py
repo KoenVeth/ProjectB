@@ -115,23 +115,21 @@ for j in range(0, length_friend):
     steam4 = r.json()
 
     #if somebody has no games skip them
-
+    # get a player's playtime for every game and add it to a list
+    # add up the playtimes and add that to a total playtime list
+    #get the most played game's index
+    #if it's not a duplicate add it to the pl
     if steam4 == {'response': {}}:
         continue
     for s in range(0, len(steam4['response']['games']) - 1):
         playtime = steam4['response']['games'][s]['playtime_forever']
         playtime_player.append(playtime)
-    max_playtime = max(playtime_player)
-    total_playtime=sum(playtime_player)
+    total_playtime = sum(playtime_player)
     total_playtime_list.append(total_playtime)
+    max_playtime = max(playtime_player)
     max_index = playtime_player.index(max_playtime)
     mostplayed = steam4['response']['games'][max_index]['name']
-    if mostplayed not in playlist:
-        playlist.append(mostplayed)
-        occurrence.append(mostplayed)
-    else:
-        occurrence.append(mostplayed)
-print(total_playtime_list)
+    occurrence.append(mostplayed)
 countdict = {}
 # print(steam4)
 for u in range(0, len(occurrence) - 1):
