@@ -117,31 +117,34 @@ print("Done!\n")
 
 print("Loading your friends play page.")
 
-
-playlist = []
 occurrence = []
+total_playtime_list = []
 for j in range(0, length_friend):
 
     slink9 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
     slink10 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json&include_played_free_games"
     slink11 = slink9 + steamApiKey + slink10
     r = requests.get(slink11)
-    playlist_player = []
-    # convert to JSON and save to another variable
+    playtime_player = []
+
     steam4 = r.json()
+
+    # if somebody has no games skip them
+    # get a player's playtime for every game and add it to a list
+    # add up the play times and add that to a total playtime list
+    # get the most played game's index
+    # if it's not a duplicate add it to the pl
     if steam4 == {'response': {}}:
         continue
-    for s in range(0, len(steam4['response']['games'])-1):
-       play_time = steam4['response']['games'][s]['playtime_forever']
-       playlist_player.append(play_time)
-    max_playtime = max(playlist_player)
-    max_index = playlist_player.index(max_playtime)
+    for s in range(0, len(steam4['response']['games']) - 1):
+        playtime = steam4['response']['games'][s]['playtime_forever']
+        playtime_player.append(playtime)
+    total_playtime = sum(playtime_player)
+    total_playtime_list.append(total_playtime)
+    max_playtime = max(playtime_player)
+    max_index = playtime_player.index(max_playtime)
     most_played = steam4['response']['games'][max_index]['name']
-    if most_played not in playlist:
-        playlist.append(most_played)
-        occurrence.append(most_played)
-    else:
-        occurrence.append(most_played)
+    occurrence.append(most_played)
 
 count_dict = {}
 for u in range(0, len(occurrence) - 1):
@@ -352,12 +355,13 @@ def home_screen():
             median_playtime = data[result2]['median_playtime']
             owners = data[result2]['owners']
             price = data[result2]['price']
+
             textbox_data2 = f"App ID: {appid}\n\nName: {name}\n\nDeveloper: {developer}\n\n" \
                            f"Release date: {release_date}\n\nPublisher: {publisher}\n\nPlatforms: {platforms}\n\n" \
                            f"Price: $ {price}\n\nRequired age: {required_age}\n\nCategories: {categories}\n\n" \
                            f"Genres: {genres}\n\nSteamspy_tags: {steamspy_tags}\n\nAchievements: {achievements}\n\n" \
                            f"Positive ratings: {postive_ratings}\n\nNegative_ratings: {negative_ratings}\n\n" \
-                           f"Average playtime: {average_playtime}hours\n\nMedian playtime: {median_playtime} hours\n\n" \
+                           f"Average playtime: {average_playtime} hours\n\nMedian playtime: {median_playtime} hours\n\n" \
                            f"Owners: {owners}\n\nAvailable in English: {english}"
             textbox_1_home.insert(0.0, textbox_data2)
         else:
@@ -662,7 +666,7 @@ def call():
                        f"Price: $ {price}\n\nRequired age: {required_age}\n\nCategories: {categories}\n\n" \
                        f"Genres: {genres}\n\nSteamspy_tags: {steamspy_tags}\n\nAchievements: {achievements}\n\n" \
                        f"Positive ratings: {postive_ratings}\n\nNegative_ratings: {negative_ratings}\n\n" \
-                       f"Average playtime: {average_playtime}hours\n\nMedian playtime: {median_playtime} hours\n\n" \
+                       f"Average playtime: {average_playtime} hours\n\nMedian playtime: {median_playtime} hours\n\n" \
                        f"Owners: {owners}\n\nAvailable in English: {english}"
         textbox_1.insert(0.0, textbox_data)
     else:
