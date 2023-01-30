@@ -38,14 +38,14 @@ len_friend = steam2["friendslist"]["friends"]
 length_friend = len(len_friend)
 for i in range(0, length_friend):
     friend = steam2["friendslist"]["friends"][i]["steamid"]
-    # print(friend)
+
     friends_list.append(friend)
 # Steam API link formatting for "GetOwnedGames"
 print("Done!\n")
 
 print("Gathering friend statistics.")
 game_count_list = []
-gameslist = ""
+games_list = ""
 for j in range(0, length_friend):
 
     slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
@@ -59,14 +59,14 @@ for j in range(0, length_friend):
         game_count_list.append(0)
         continue
     choice = random.choice(range(0, len(steam3["response"]["games"]) - 1))
-    randomgame = steam3["response"]["games"][choice]["name"]
-    if randomgame not in gameslist:
-        gameslist += randomgame + ";"
+    random_game = steam3["response"]["games"][choice]["name"]
+    if random_game not in games_list:
+        games_list += random_game + ";"
     games = steam3["response"]["game_count"]
     game_count_list.append(games)
-    # print(steam3)
-# print(game_count_list)
-gameslist=gameslist.split(";")
+
+games_list = games_list.split(";")
+games_list.pop(-1)
 print("Done!\n")
 
 print("Gathering friends data.")
@@ -132,8 +132,8 @@ for j in range(0, length_friend):
     if steam4 == {'response': {}}:
         continue
     for s in range(0, len(steam4['response']['games'])-1):
-       playtime = steam4['response']['games'][s]['playtime_forever']
-       playlist_player.append(playtime)
+       play_time = steam4['response']['games'][s]['playtime_forever']
+       playlist_player.append(play_time)
     max_playtime = max(playlist_player)
     max_index = playlist_player.index(max_playtime)
     most_played = steam4['response']['games'][max_index]['name']
@@ -143,18 +143,15 @@ for j in range(0, length_friend):
     else:
         occurrence.append(most_played)
 
-countdict = {}
+count_dict = {}
 for u in range(0, len(occurrence) - 1):
-    # print(occurrence.count(occurrence[u]))
-    countdict[occurrence[u]] = occurrence.count(occurrence[u])
-# print(countdict)
-top3 = {}
-for k in sorted(countdict, key=countdict.get, reverse=True):
-    count_one = countdict[k]
-    if len(top3) < 5:
-        top3[k] = count_one
-#print(top3)
-top5_games = list(top3.keys())
+    count_dict[occurrence[u]] = occurrence.count(occurrence[u])
+top5 = {}
+for k in sorted(count_dict, key=count_dict.get, reverse=True):
+    count_one = count_dict[k]
+    if len(top5) < 5:
+        top5[k] = count_one
+top5_games = list(top5.keys())
 print("Done!\n")
 
 print("All done!")
@@ -305,6 +302,13 @@ def home_screen():
     switch_home.place(x=830, y=65)
 
     def binary_search_algorithm2(data, min, max, game2):
+        # The json file gets sorted.
+        # The binary search algorthm searched for the first and the last indexes in the data.
+        # If the middle game matched with the input, it will return its index,
+        # otherwise the algorithm searches in the higher or lower indexes.
+        # It will repeat this process until the game is found.
+        # If the game isn't found, the function will return -1.
+
         if max >= min:
             mid = (max + min) // 2
             if data[mid]["name"] == game2:
@@ -320,6 +324,10 @@ def home_screen():
         textbox_1_home.delete(0.0, END)
         game2 = entry_1_home.get()
         result2 = binary_search_algorithm2(data, 0, len(data) - 1, game2)
+
+        # If the game is found, the data will be divided using the found game's index.
+        # If -1 has been returned from the binary search algorithm, an error message will be displayed.
+        # The data will be inserted into textbox_data2
 
         if result2 != -1:
             appid = data[result2]["appid"]
@@ -363,6 +371,12 @@ def clicked_fiend_list():
 
     textbox1 = CTkTextbox(window, width=825, height=500, font=("italic", 20), fg_color="#1D1E1E", text_color="white")
     textbox1.place(x=37.5, y=100)
+
+    # I make an empty string and set Counter1 equal to 1.
+    # Then I use a forloop to loop through each item in the three lists, and add it to the string in the form of
+    # f strings sot that it is nicely formatted. With each loop Counter1 increases by one.
+    # At the end of the forloop I insert the string to textbox1.
+
     name_str = ""
     counter1 = 1
     for name, status, log in zip(names, online_list, last_seen_list):
@@ -403,6 +417,11 @@ def clicked_game_data():
     frame1 = CTkFrame(window, width=430, height=610, fg_color="#1D1E1E")
     frame1.place(x=450, y=20)
 
+    # The game data tab shows the user statistics about the game count of their friends list.
+    # Such as: How many games do my friends have on average. Or how many friends have the same amount of games.
+    # The code uses functions named: average, range_lst, median, var, modes, std to find out the statistics of the
+    # friends game data. Then the code adds the return value to an f string.
+
     label_one = CTkLabel(frame1, text=f"Average: {average}", font=("italic", 25, "bold"), text_color="white")
     label_one.place(x=20, y=20)
 
@@ -428,6 +447,10 @@ def clicked_game_data():
     img1 = customtkinter.CTkImage(dark_image=Image.open("data-analysis.png"), size=(150, 150))
     label_seven = CTkLabel(frame1, text="", image=img1)
     label_seven.place(x=20, y=400)
+
+    # Here the code checks to see if the average is 0. If that's the case, then that means that the API is down.
+    # If the API is down, then a label will be made saying "API down".
+    # The API has gone down multiple times during development of this project.
 
     if average == 0:
         destroy()
@@ -475,14 +498,20 @@ def clicked_yfp():
                                    fg_color="#1D1E1E", font=("italic", 15))
     textbox_1_friends.place(x=10, y=200)
 
+    # An empty string has been made. Then a forloop loops through every game in the list, and dds it to te empty string
+    # in the form of an f string. At the end the string will be inserted to textbox_1_friends.
+
     textbox_1_friends_str = ""
-    for g in gameslist:
+    for g in games_list:
         textbox_1_friends_str += f"{g}\n\n"
     textbox_1_friends.insert(0.0, textbox_1_friends_str)
 
     textbox_2_friends = CTkTextbox(window, width=320, height=430, corner_radius=10, text_color="white",
                                    fg_color="#1D1E1E", font=("italic", 18))
     textbox_2_friends.place(x=340, y=200)
+
+    # An empty string has been made. Then a forloop loops through every game in the list, and dds it to te empty string
+    # in the form of an f string. At the end the string will be inserted to textbox_2_friends.
 
     textbox_2_friends_str = ""
     for n in top5_games:
@@ -492,6 +521,9 @@ def clicked_yfp():
     textbox_3_friends = CTkTextbox(frame_2_friends, width=200, height=300, corner_radius=10, text_color="white",
                                    fg_color="#1D1E1E", font=("italic", 20))
     textbox_3_friends.place(x=10, y=190)
+
+    # An empty string has been made. Then a forloop loops through every friend in the list, and dds it to te empty
+    # string in the form of an f string. At the end the string will be inserted to textbox_3_friends.
 
     textbox_3_friends_str = ""
     for n in friends_online:
@@ -574,6 +606,13 @@ data.sort(key=operator.itemgetter('name'))  # sort the games by name
 
 
 def binary_search_algorithm(data, min, max, game):
+    # The json file gets sorted.
+    # The binary search algorthm searched for the first and the last indexes in the data.
+    # If the middle game matched with the input, it will return its index,
+    # otherwise the algorithm searches in the higher or lower indexes.
+    # It will repeat this process until the game is found.
+    # If the game isn't found, the function will return -1.
+
     if max >= min:
         mid = (max + min) // 2
         if data[mid]["name"] == game:
@@ -590,6 +629,10 @@ def call():
     textbox_1.delete(0.0, END)
     game = entry_1.get()
     result = binary_search_algorithm(data, 0, len(data) - 1, game)
+
+    # If the game is found, the data will be divided using the found game's index.
+    # If -1 has been returned from the binary search algorithm, an error message will be displayed.
+    # The data will be inserted into textbox_data.
 
     if result != -1:
         appid = data[result]["appid"]
@@ -624,6 +667,7 @@ def call():
         textbox_1.insert(0.0, textbox_data)
     else:
         messagebox.showinfo("Error", "Make sure the game has been spelled correctly.\nNote: This database has no game past 2019\nAnd the game has to be on Steam.")
+
 
 button_6 = CTkButton(frame_2, text="search", fg_color=button_c, hover_color=button_hc, width=90, height=55,
                      font=("italic", 15, "bold"), command=lambda: call())
