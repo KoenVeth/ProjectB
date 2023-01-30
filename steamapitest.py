@@ -43,9 +43,8 @@ for j in range(0, length_friend):
     games = steam3["response"]["game_count"]
     game_count_list.append(games)
     # print(steam3)
-print(game_count_list)
-gameslist=gameslist.split(";")
-# print(gameslist)
+# print(game_count_list)
+print(gameslist)
 
 last_seen_list = []
 online_list = ""
@@ -132,4 +131,4 @@ for k in sorted(countdict, key=countdict.get, reverse=True):
         top3[k] = count_one
 #print(top3)
 top5_games = list(top3.keys())
-# print(top5_games)
+print(top5_games)

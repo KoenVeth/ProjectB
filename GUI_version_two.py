@@ -5,7 +5,6 @@ from tkinter import messagebox
 from PIL import Image
 import datetime
 import requests
-import pytz
 import json
 import operator
 import random
@@ -46,6 +45,7 @@ print("Done!\n")
 
 print("Gathering friend statistics.")
 game_count_list = []
+gameslist = ""
 for j in range(0, length_friend):
 
     slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
@@ -54,15 +54,19 @@ for j in range(0, length_friend):
     r = requests.get(slink8)
 
     # convert to JSON and save to another variable
-
     steam3 = r.json()
-    # weeks=steam3["response"]["games"]
     if steam3 == {'response': {}}:
         game_count_list.append(0)
         continue
+    choice = random.choice(range(0, len(steam3["response"]["games"]) - 1))
+    randomgame = steam3["response"]["games"][choice]["name"]
+    if randomgame not in gameslist:
+        gameslist += randomgame + ";"
     games = steam3["response"]["game_count"]
     game_count_list.append(games)
     # print(steam3)
+# print(game_count_list)
+gameslist=gameslist.split(";")
 print("Done!\n")
 
 print("Gathering friends data.")
@@ -112,29 +116,7 @@ for k in range(0, length_friend):
 print("Done!\n")
 
 print("Loading your friends play page.")
-game_count_list = []
-gameslist = ""
-for j in range(0, length_friend):
 
-    slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
-    slink7 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json&include_played_free_games"
-    slink8 = slink6 + steamApiKey + slink7
-    r = requests.get(slink8)
-
-    # convert to JSON and save to another variable
-    steam3 = r.json()
-    if steam3 == {'response': {}}:
-        game_count_list.append(0)
-        continue
-    choice = random.choice(range(0, len(steam3["response"]["games"]) - 1))
-    randomgame = steam3["response"]["games"][choice]["name"]
-    if randomgame not in gameslist:
-        gameslist += randomgame + ";"
-    games = steam3["response"]["game_count"]
-    game_count_list.append(games)
-    # print(steam3)
-# print(game_count_list)
-gameslist=gameslist.split(";")
 
 playlist = []
 occurrence = []
