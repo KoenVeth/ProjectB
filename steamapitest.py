@@ -5,7 +5,7 @@ import datetime
 # get your api key
 # insert your SteamID
 # Get the link to the API
-# connect to the JSON-file and get it
+# connect to the JSON file and get it
 steamApiKey = "BBD242CD0468A435B14FB923B302231D"
 steamID = "76561198351674547"
 slink3 = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key="
@@ -118,7 +118,7 @@ for j in range(0, length_friend):
     # get a player's playtime for every game and add it to a list
     # add up the playtimes and add that to a total playtime list
     #get the most played game's index
-    #if it's not a duplicate add it to the pl
+    #add th emost played game to the occurance list
     if steam4 == {'response': {}}:
         continue
     for s in range(0, len(steam4['response']['games']) - 1):
@@ -130,12 +130,21 @@ for j in range(0, length_friend):
     max_index = playtime_player.index(max_playtime)
     mostplayed = steam4['response']['games'][max_index]['name']
     occurrence.append(mostplayed)
+
+print(total_playtime_list)
+#create a dictionary for the amount of times a game occures in a max list
+#add and organize the occurances in that dictionary
+
 countdict = {}
 # print(steam4)
 for u in range(0, len(occurrence) - 1):
     # print(occurrence.count(occurrence[u]))
     countdict[occurrence[u]] = occurrence.count(occurrence[u])
 # print(countdict)
+
+#sort the dict by amount of games
+# add the top 5 to the new dictionary
+#the keys are the games, put those in a new list
 top3 = {}
 for k in sorted(countdict, key=countdict.get, reverse=True):
     count_one = countdict[k]
