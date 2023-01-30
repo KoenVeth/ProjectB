@@ -8,6 +8,7 @@ import requests
 import pytz
 import json
 import operator
+import random
 
 print("Loading.....\n")
 
@@ -111,6 +112,30 @@ for k in range(0, length_friend):
 print("Done!\n")
 
 print("Loading your friends play page.")
+game_count_list = []
+gameslist = ""
+for j in range(0, length_friend):
+
+    slink6 = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key="
+    slink7 = "&steamid=" + friends_list[j] + "&include_appinfo=1&format=json"
+    slink8 = slink6 + steamApiKey + slink7
+    r = requests.get(slink8)
+
+    # convert to JSON and save to another variable
+    steam3 = r.json()
+    if steam3 == {'response': {}}:
+        game_count_list.append(0)
+        continue
+    choice = random.choice(range(0, len(steam3["response"]["games"]) - 1))
+    randomgame = steam3["response"]["games"][choice]["name"]
+    if randomgame not in gameslist:
+        gameslist += randomgame + ";"
+    games = steam3["response"]["game_count"]
+    game_count_list.append(games)
+    # print(steam3)
+# print(game_count_list)
+gameslist=gameslist.split(";")
+
 playlist = []
 occurrence = []
 for j in range(0, length_friend):
@@ -465,11 +490,11 @@ def clicked_yfp():
     label_5_friends.place(x=345, y=152)
 
     textbox_1_friends = CTkTextbox(window, width=320, height=430, corner_radius=10, text_color="white",
-                                   fg_color="#1D1E1E", font=("italic", 18))
+                                   fg_color="#1D1E1E", font=("italic", 15))
     textbox_1_friends.place(x=10, y=200)
 
     textbox_1_friends_str = ""
-    for g in playlist:
+    for g in gameslist:
         textbox_1_friends_str += f"{g}\n\n"
     textbox_1_friends.insert(0.0, textbox_1_friends_str)
 
