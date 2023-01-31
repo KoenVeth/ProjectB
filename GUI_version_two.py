@@ -446,7 +446,7 @@ def clicked_gaming_data():
     canvas = FigureCanvasTkAgg(fig, master=window)
     canvas.draw()
 
-    canvas.get_tk_widget().place(x=25, y=75)
+    canvas.get_tk_widget().place(x=25, y=100)
 
     # The game data tab shows the user statistics about the game count of their friends list.
     # Such as: How many games do my friends have on average. Or how many friends have the same amount of games.
@@ -506,8 +506,6 @@ def clicked_gaming_data2():
     destroy()
     window.title("Friend's game ownership data")
 
-
-
     game_count_list.sort()
     mean = sum(game_count_list) // len(game_count_list)
 
@@ -536,7 +534,7 @@ def clicked_gaming_data2():
     canvas = FigureCanvasTkAgg(fig, master=window)
     canvas.draw()
 
-    canvas.get_tk_widget().place(x=25, y=75)
+    canvas.get_tk_widget().place(x=25, y=100)
 
 
     # The game data tab shows the user statistics about the game count of their friends list.
